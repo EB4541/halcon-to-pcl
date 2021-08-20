@@ -1,0 +1,45 @@
+<!-- Make 3rd-level TOC collapsible -->
+
+<style>
+  #toc.toc2 ul ul {
+    padding-left: 1.5em;
+  }
+  .sectlevel3 {
+    display: none;
+  }
+  .sectlevel2 > li > input[type=checkbox] {
+    display: inline-block;
+    appearance: none;
+    cursor: pointer;
+    width: 0.6em;
+    text-align: center;
+  }
+  .sectlevel2 > li > input[type=checkbox]::before {
+    content: '+';
+  }
+  .sectlevel2 > li > input[type=checkbox]:checked::before {
+    content: '-';
+  }
+  .sectlevel2 > li > input[type=checkbox]:checked ~ .sectlevel3 {
+    display: block;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  Array.from(document.querySelectorAll('.sectlevel2 > li > a')).forEach((link) => {
+    if (!link.parentNode.getElementsByTagName('ul').length) return;
+
+    var btn = document.createElement('input');
+    btn.type = 'checkbox';
+    link.parentNode.insertBefore(btn, link);
+
+    var space = document.createTextNode(' ');
+    link.parentNode.insertBefore(space, link);
+
+    link.addEventListener('click', function() {
+      btn.checked = true;
+    });
+  });
+});
+</script>

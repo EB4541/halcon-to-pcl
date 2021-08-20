@@ -1,0 +1,15 @@
+= HALCON to PCL Function Comparison
+
+include::manage_cloud.adoc[]
+
+== Calculating Features of Point Clouds
+
+== Segmenting Point Clouds
+
+== Transforming Point Clouds
+
+== File I/O
+
+== Creating Visualisations
+
+== Creating/Modifying Transformation Matricies

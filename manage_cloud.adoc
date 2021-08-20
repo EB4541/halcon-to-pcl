@@ -1,0 +1,164 @@
+== Managing Point Clouds
+
+=== Creating
+
+==== Create an empty point cloud
+
+HALCON:
+
+[,hdevelop]
+----
+cloud = gen_empty_object_model_3d()
+----
+
+PCL:
+
+[,cpp]
+----
+pcl::PointCloud<pcl::PointXYZ> cloud;
+----
+
+PCL also has built-in smart pointer types of point clouds.
+
+[,cpp]
+----
+pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_ptr(new pcl::PointCloud<pcl::PointXYZ>());
+// or
+auto cloud_ptr = std::make_shared<pcl::PointCloud<pcl::PointXYZ>();
+----
+
+==== Copy a point cloud
+
+HALCON:
+
+[,hdevelop]
+----
+cloud_copy = copy_object_model_3d(cloud)
+----
+
+PCL:
+
+[,cpp]
+----
+pcl::PointCloud<pcl::PointXYZ> cloud_copy = cloud; // stack to stack
+// or
+pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_ptr_copy = std::make_shared<pcl::PointCloud<pcl::PointXYZ>>(*cloud_ptr); // heap to heap
+// or
+pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_ptr = cloud.makeShared(); // stack to heap
+----
+
+==== Create a point cloud from a set of points
+
+HALCON:
+
+Consumes 3 arrays of the same length: `xx`, `yy`, `zz`, which store the X, Y, Z coordinates of those points.
+
+[,hdevelop]
+----
+cloud = gen_object_model_3d_from_points(xx, yy, zz)
+----
+
+PCL:
+
+There is no dedicated function, the programmer has to add the points with a loop. Assume `xx`, `yy`, `zz` are vectors of the same length.
+
+[,cpp]
+----
+pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>());
+for (size_t i = 0; i < xx.size(); i++) {
+  cloud->push(pcl::PointXYZ(xx[i], yy[i], zz[i]));
+}
+----
+
+==== Combine point clouds
+
+HALCON:
+
+[,hdevelop]
+----
+cloud_combined = union_object_model_3d([cloud_a, cloud_b])
+----
+
+PCL:
+
+----
+auto cloud_combined = cloud_a + cloud_b;
+----
+
+==== Free the memory occupied by a point cloud
+
+HALCON:
+
+[,hdevelop]
+----
+clear_object_model_3d(cloud)
+----
+
+PCL:
+
+Subject to C++ object lifetime rules.
+
+=== I/O
+
+==== Read a point cloud from a file
+
+HALCON:
+
+[,hdevelop]
+----
+cloud = read_object_model_3d(filename)
+----
+
+Specifying file format (one of `om3`, `dxf`, `off`, `ply`, `obj`, `stl`):
+
+[,hdevelop]
+----
+cloud = read_object_model_3d(file_name, 'm', ['file_type'], [file_format])
+----
+
+PCL:
+
+[,cpp]
+----
+pcl::PointCloud<pcl::PointXYZ> cloud;
+if (pcl::io::load(file_name, cloud) == -1) perror(NULL);
+----
+
+Specifying file format:
+
+[,cpp]
+----
+// Instead of pcl::io::load(filename, cloud), use one of:
+pcl::io::loadIFSFile(file_name, cloud);
+pcl::io::loadOBJFile(file_name, cloud);
+pcl::io::loadPCDFile(file_name, cloud);
+pcl::io::loadPLYFile(file_name, cloud);
+----
+
+==== Save a point cloud to a file
+
+HALCON:
+
+[,hdevelop]
+----
+write_object_model_3d(cloud, file_type, file_name)
+----
+
+`file_type` is one of `om3`, `dxf`, `off`, `ply`, `ply_binary`, `obj`, `stl`, `stl_binary`, `stl_ascii`.
+
+PCL:
+
+[,cpp]
+----
+// One of:
+pcl::io::save(file_name, cloud); // auto detect IFS, PCD or PLY
+pcl::io::saveIFSFile(file_name, cloud);
+pcl::io::saveOBJFile(file_name, cloud);
+pcl::io::savePCDFile(file_name, cloud);
+pcl::io::savePCDFileASCII(file_name, cloud);
+pcl::io::savePCDFileBinary(file_name, cloud);
+pcl::io::savePCDFileBinaryCompressed(file_name, cloud);
+pcl::io::savePLYFile(file_name, cloud);
+pcl::io::savePLYFileASCII(file_name, cloud);
+pcl::io::savePLYFileBinary(file_name, cloud);
+----
