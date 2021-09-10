@@ -1,0 +1,245 @@
+
+=== 3D Homogeneous Transformation Matrices
+
+==== Create a 3D identity transformation matrix
+
+[stem]
+++++
+\text{matrix} = I_4
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+matrix = hom_mat3d_identity()
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Affine3f matrix = Eigen::Affine3f::Identity();
+// or, for existing matrix:
+matrix.setIdentity();
+----
+
+==== Invert a 3D transformation matrix
+
+[stem]
+++++
+\text{matrix_inverted} = \text{matrix}^{-1}
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+matrix_inverted = hom_mat3d_invert(matrix)
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Affine3f matrix_inverted = matrix.inverse();
+----
+
+==== Transpose a 3D transformation matrix
+
+[stem]
+++++
+\text{matrix_transposed} = \text{matrix}^T
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+matrix_transposed = hom_mat3d_transpose(matrix)
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Projective3f matrix_transposed(matrix.matrix().transpose());
+----
+
+==== Compute the determinant of a 3D transformation matrix
+
+[stem]
+++++
+\text{determinant} = | \text{matrix} |
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+determinant = hom_mat3d_determinant(matrix)
+----
+
+PCL:
+
+[,cpp]
+----
+float determinant = matrix.matrix().determinant();
+----
+
+==== Multiply 2 3D transformation matrices
+
+[stem]
+++++
+\text{product} = \text{matrix_a} \cdot \text{matrix_b}
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+product = hom_mat3d_compose(matrix_a, matrix_b)
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Affine3f product = matrix_a * matrix_b;
+----
+
+==== Add rotation to a 3D transformation matrix
+
+[stem]
+++++
+\text{matrix_rotated} = \text{matrix} \cdot \begin{bmatrix}
+  R & \begin{matrix}0\\0\\0\end{matrix} \\
+  \begin{matrix}0 & 0 & 0\end{matrix} & 1
+\end{bmatrix}
+++++
+
+[stem]
+++++
+\begin{align}
+  R_x &= \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & \cos(\phi) & -\sin(\phi) \\
+    0 & \sin(\phi) & \cos(\phi)
+  \end{bmatrix} && \text{axis = X} \\
+
+  R_y &= \begin{bmatrix}
+    \cos(\phi) & 0 & \sin(\phi) \\
+    0 & 1 & 0 \\
+    -\sin(\phi) & 0 & \cos(\phi)
+  \end{bmatrix} && \text{axis = Y} \\
+
+  R_z &= \begin{bmatrix}
+    \cos(\phi) & -\sin(\phi) & 0 \\
+    \sin(\phi) & \cos(\phi) & 0 \\
+    0 & 0 & 1
+  \end{bmatrix} && \text{axis = Z} \\
+
+  R_u &= \cos(\phi) I + \sin(\phi) [u]_\times + (1 - \cos(\phi))(u u^T) && \text{axis is a unit vector $u$}
+\end{align}
+++++
+
+[stem]
+++++
+u = \begin{pmatrix}
+  u_x \\
+  u_y \\
+  u_z
+\end{pmatrix}
+\qquad
+[u]_\times = \begin{bmatrix}
+  0 & -u_z & u_y \\
+  u_z & 0 & -u_x \\
+  -u_y & u_x & 0
+\end{bmatrix}
+++++
+
+`phi` is the angle of rotation in radians.
+
+HALCON:
+
+`axis` is one of `'x'`, `'y'`, `'z'`, or a unit vector `[ux, uy, uz]` as a tuple. 
+
+[,hdevelop]
+----
+matrix_rotated = hom_mat3d_rotate_local(matrix, phi, axis)
+----
+
+PCL:
+
+`axis` is one of:
+
+* `Eigen::Vector3f::UnitX()`
+* `Eigen::Vector3f::UnitY()`
+* `Eigen::Vector3f::UnitZ()`
+* `Eigen::Vector3f(ux, uy, uz)`
+
+WARNING: `axis` must be normalized, else rotation is invalid.
+
+[,cpp]
+----
+Eigen::Affine3f matrix_rotated = matrix;
+matrix_rotated.rotate(Eigen::AngleAxisf(phi, axis));
+----
+
+==== Add scaling to a 3D transformation matrix
+
+[stem]
+++++
+\text{matrix_scaled} = \text{matrix} \cdot \begin{bmatrix}
+  s_x & 0 & 0 & 0 \\
+  0 & s_y & 0 & 0 \\
+  0 & 0 & s_z & 0 \\
+  0 & 0 & 0 & 1
+\end{bmatrix}
+++++
+
+`sx`, `sy`, `sz` are scaling factors on the X, Y, Z dimensions.
+
+HALCON:
+
+[,hdevelop]
+----
+matrix_scaled = hom_mat3d_scale_local(matrix, sx, sy, sz)
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Affine3f matrix_scaled = matrix;
+matrix_scaled.scale(Eigen::Vector3f(sx, sy, sz));
+// or when sx == sy == sz:
+matrix_scaled.scale(sx);
+----
+
+==== Add translation to a 3D transformation matrix
+
+[stem]
+++++
+\text{matrix_translated} = \text{matrix} \cdot \begin{bmatrix}
+  1 & 0 & 0 & t_x \\
+  0 & 1 & 0 & t_y \\
+  0 & 0 & 1 & t_z \\
+  0 & 0 & 0 & 1
+\end{bmatrix}
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+matrix_translated = hom_mat3d_translate_local(matrix, tx, ty)
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Affine3f matrix_translated = matrix;
+matrix_translated.translate(Eigen::Vector3f(tx, ty, tz));
+----

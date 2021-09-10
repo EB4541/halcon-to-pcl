@@ -1,0 +1,193 @@
+
+=== 2D Homogeneous Transformation Matrices
+
+==== Create a 2D identity transformation matrix
+
+[stem]
+++++
+\text{matrix} = I_3
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+matrix = hom_mat2d_identity()
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Affine2f matrix = Eigen::Affine2f::Identity();
+// or, for existing matrix:
+matrix.setIdentity();
+----
+
+==== Invert a 2D transformation matrix
+
+[stem]
+++++
+\text{matrix_inverted} = \text{matrix}^{-1}
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+matrix_inverted = hom_mat2d_invert(matrix)
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Affine2f matrix_inverted = matrix.inverse();
+----
+
+==== Transpose a 2D transformation matrix
+
+[stem]
+++++
+\text{matrix_transposed} = \text{matrix}^T
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+matrix_transposed = hom_mat2d_transpose(matrix)
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Projective2f matrix_transposed(matrix.matrix().transpose());
+----
+
+==== Compute the determinant of a 2D transformation matrix
+
+[stem]
+++++
+\text{determinant} = | \text{matrix} |
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+determinant = hom_mat2d_determinant(matrix)
+----
+
+PCL:
+
+[,cpp]
+----
+float determinant = matrix.matrix().determinant();
+----
+
+==== Multiply 2 2D transformation matrices
+
+[stem]
+++++
+\text{product} = \text{matrix_a} \cdot \text{matrix_b}
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+product = hom_mat2d_compose(matrix_a, matrix_b)
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Affine2f product = matrix_a * matrix_b;
+----
+
+==== Add rotation to a 2D transformation matrix
+
+[stem]
+++++
+\text{matrix_rotated} = \text{matrix} \cdot \begin{bmatrix}
+  \cos(\phi) & -\sin(\phi) & 0 \\
+  \sin(\phi) & \cos(\phi) & 0 \\
+  0 & 0 & 1
+\end{bmatrix}
+++++
+
+`phi` is the angle of rotation in radians.
+
+HALCON:
+
+[,hdevelop]
+----
+matrix_rotated = hom_mat2d_rotate_local(matrix, phi)
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Affine2f matrix_rotated = matrix;
+matrix_rotated.rotate(phi);
+----
+
+==== Add scaling to a 2D transformation matrix
+
+[stem]
+++++
+\text{matrix_scaled} = \text{matrix} \cdot \begin{bmatrix}
+  s_x & 0 & 0 \\
+  0 & s_y & 0 \\
+  0 & 0 & 1
+\end{bmatrix}
+++++
+
+`sx` and `sy` are scaling factors on the X and Y dimensions.
+
+HALCON:
+
+[,hdevelop]
+----
+matrix_scaled = hom_mat2d_scale_local(matrix, sx, sy)
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Affine2f matrix_scaled = matrix;
+matrix_scaled.scale(Eigen::Vector2f(sx, sy));
+// or when sx == sy:
+matrix_scaled.scale(sx);
+----
+
+==== Add translation to a 2D transformation matrix
+
+[stem]
+++++
+\text{matrix_translated} = \text{matrix} \cdot \begin{bmatrix}
+  1 & 0 & t_x \\
+  0 & 1 & t_y \\
+  0 & 0 & 1
+\end{bmatrix}
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+matrix_translated = hom_mat2d_translate_local(matrix, tx, ty)
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Affine2f matrix_translated = matrix;
+matrix_translated.translate(Eigen::Vector2f(tx, ty));
+----

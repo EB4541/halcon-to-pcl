@@ -1,0 +1,16 @@
+== Transformations
+
+[IMPORTANT]
+HALCON makes the distinction between pixel-centered and edge-centered Cartesian coordinate systems, functions may expect and output one coordinate system or the other (see https://www.mvtec.com/doc/halcon/2011/en/toc_transformations_2dtransformations.html[documentation]). Failure to conform may result in off-by-0.5-pixel errors. PCL does not make this distinction, it's up to the programmer to ensure consistent use of coordinate systems.
+
+PCL uses the https://eigen.tuxfamily.org/index.php?title=Main_Page[Eigen] library to handle matrices. Eigen is not part of PCL. For the completeness of this document, its use is still provided under PCL code examples to provide parity with HALCON.
+
+PCL does not make the distinction between affine and rigid transformations. All rigid transformations are treated as affine transformations.
+
+In PCL, affine transformations are described by data types `Eigen::Affine2f` and `Eigen::Affine3f`, while projective transformations are described by data types `Eigen::Projective2f` and `Eigen::Projective3f`. They are all instantiations of the template class `Eigen::Transform`. Many of the PCL code examples in this chapter use the affine types, they are also applicable to projective transformations.
+
+include::transformations_2d.adoc[]
+
+include::transformations_3d.adoc[]
+
+=== Poses

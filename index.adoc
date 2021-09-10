@@ -6,10 +6,8 @@ include::manage_cloud.adoc[]
 
 == Segmenting Point Clouds
 
-== Transforming Point Clouds
+include::transformations.adoc[]
 
 == File I/O
 
 == Creating Visualisations
-
-== Creating/Modifying Transformation Matricies
