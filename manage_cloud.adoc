@@ -81,6 +81,7 @@ cloud_combined = union_object_model_3d([cloud_a, cloud_b])
 
 PCL:
 
+[,cpp]
 ----
 auto cloud_combined = cloud_a + cloud_b;
 ----
@@ -109,7 +110,7 @@ HALCON:
 cloud = read_object_model_3d(filename)
 ----
 
-Specifying file format (one of `om3`, `dxf`, `off`, `ply`, `obj`, `stl`):
+Specifying file format (one of `'om3'`, `'dxf'`, `'off'`, `'ply'`, `'obj'`, `'stl'`):
 
 [,hdevelop]
 ----
@@ -144,7 +145,7 @@ HALCON:
 write_object_model_3d(cloud, file_type, file_name)
 ----
 
-`file_type` is one of `om3`, `dxf`, `off`, `ply`, `ply_binary`, `obj`, `stl`, `stl_binary`, `stl_ascii`.
+`file_type` is one of `'om3'`, `'dxf'`, `'off'`, `'ply'`, `'ply_binary'`, `'obj'`, `'stl'`, `'stl_binary'`, `'stl_ascii'`.
 
 PCL:
 
