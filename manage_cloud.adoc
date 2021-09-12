@@ -1,5 +1,6 @@
 == Managing Point Clouds
 
+[[creating_point_clouds, Creating Point Clouds]]
 === Creating
 
 ==== Create an empty point cloud
@@ -99,6 +100,7 @@ PCL:
 
 Subject to C++ object lifetime rules.
 
+[[point_cloud_io, Point Cloud I/O]]
 === I/O
 
 ==== Read a point cloud from a file
