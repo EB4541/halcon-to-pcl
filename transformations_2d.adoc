@@ -191,3 +191,82 @@ PCL:
 Eigen::Affine2f matrix_translated = matrix;
 matrix_translated.translate(Eigen::Vector2f(tx, ty));
 ----
+
+==== Add reflection to a 2D transformation matrix
+
+[stem]
+++++
+\begin{gather}
+  \text{reflection} = \begin{bmatrix}
+    M & \begin{matrix}0 \\ 0\end{matrix} \\
+    \begin{matrix}0 & 0\end{matrix} & 1
+  \end{bmatrix} \cdot \text{matrix} \\
+
+  M = I - \frac{2}{v^T v} v v^T
+  \qquad
+  v = \begin{bmatrix}
+    -p_y \\
+    p_x
+  \end{bmatrix}
+\end{gather}
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+reflection = hom_mat2d_reflect_local(matrix, px, py)
+----
+
+PCL:
+
+Eigen does not have a built-in function for applying reflections. One has to perform reflection on their own.
+
+[,cpp]
+----
+Eigen::Vector2f v(-py, px);
+Eigen::Matrix2f m = Eigen::Matrix2f::Identity() - 2.0f / (v.transpose() * v) * (v * v.transpose());
+Eigen::Affine2f reflection = Eigen::Affine2f(m) * matrix;
+----
+
+==== Add slant to a 2D transformation matrix
+
+[stem]
+++++
+\begin{aligned}
+  \text{matrix_slanted} &= \text{matrix} \cdot \begin{bmatrix}
+    \cos(\theta) & 0 & 0 \\
+    \sin(\theta) & 1 & 0 \\
+    0 & 0 & 1
+  \end{bmatrix} && \text{axis = X} \\
+
+  \text{matrix_slanted} &= \text{matrix} \cdot \begin{bmatrix}
+    1 & -\sin(\theta) & 0 \\
+    0 & \cos(\theta) & 0 \\
+    0 & 0 & 1
+  \end{bmatrix} && \text{axis = Y}
+\end{aligned}
+++++
+
+`theta` is the angle of slant in radians.
+
+HALCON:
+
+`axis` is `'x'` or `'y'`.
+
+[,hdevelop]
+----
+matrix_slanted = hom_mat2d_slant_local(matrix, theta, axis)
+----
+
+PCL:
+
+Eigen does not have a built-in function for applying slants. One has to perform slanting on their own.
+
+[,cpp]
+----
+// When axis = X:
+Eigen::Affine2f matrix_slanted = matrix * Eigen::Affine2f(Eigen::Matrix2f{{std::cos(theta), 0}, {std::sin(theta), 1}});
+// Or when axis = Y:
+Eigen::Affine2f matrix_slanted = matrix * Eigen::Affine2f(Eigen::Matrix2f{{1, -std::sin(theta)}, {0, std::cos(theta)}});
+----
