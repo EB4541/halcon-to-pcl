@@ -1,0 +1,51 @@
+== Transforming Point Clouds
+
+=== Transforming Point Clouds
+
+// TODO: fix 2nd-level ToC collapsing
+
+==== Apply a 3D transformation to a point cloud
+
+HALCON:
+
+[,hdevelop]
+----
+cloud_transformed = affine_trans_object_model_3d(cloud, matrix) * Affine transformation described by matrix
+* or
+cloud_transformed = rigid_trans_object_model_3d(cloud, pose) * Rigid transformation described by pose
+----
+
+PCL:
+
+[,cpp]
+----
+pcl::PointCloud<pcl::PointXYZ> cloud_transformed;
+
+// and then one of:
+pcl::transformPointCloud(cloud, cloud_transformed, matrix); // <1>
+pcl::transformPointCloud(cloud, indices, cloud_transformed, matrix); // <1><2>
+pcl::transformPointCloud(cloud, cloud_transformed, offset, rotation); // <3>
+----
+<1> `matrix` is of type `Eigen::Transform` or `Eigen::Matrix`, see <<Transformations>> for details.
+<2> `indices` is of type `pcl::PointIndices`, see <<Segmenting Point Clouds>> (TODO) for detail.
+<3> This performs a rigid transformation described by a `Eigen::Vector3f` `offset` and a `Eigen::Quaternion` `rotation`.
+
+==== Calculate the 3D surface normals of a point cloud
+
+HALCON:
+
+[,hdevelop]
+----
+normals = surface_noramls_object_model_3d(cloud, method, gen_param_name, gen_param_value)
+----
+
+TODO
+
+==== Smooth points in a point cloud
+
+[,hdevelop]
+----
+cloud_smoothed = smooth_object_model_3d(cloud, method, gen_param_name, gen_param_value)
+----
+
+TODO

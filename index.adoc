@@ -6,6 +6,8 @@ include::manage_cloud.adoc[]
 
 == Segmenting Point Clouds
 
+include::transform_cloud.adoc[]
+
 include::transformations.adoc[]
 
 == File I/O
