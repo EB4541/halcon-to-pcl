@@ -1,0 +1,75 @@
+
+=== Poses
+
+PCL does not make the distinction between affine and rigid transformations. This also means there is no separate data type that represent rigid transformations, they are also represented by affine transformation matrices.
+
+==== Create a 3D transformation matrix from rotation angles and translations
+
+`tx`, `ty`, `tz` are translation along the X, Y, Z axes; `rx`, `ry`, `rz` are rotation angles around the X, Y, Z axes in radians. `order_of_rotation` dictates the interpretation of the rotation angles.
+
+[stem]
+++++
+\begin{aligned}
+  \text{matrix} &= \begin{bmatrix}
+    1 & 0 & 0 & t_x \\
+    0 & 1 & 0 & t_y \\
+    0 & 0 & 1 & t_z \\
+    0 & 0 & 0 & 1
+  \end{bmatrix} \cdot R_x \cdot R_y \cdot R_z
+  && \text{order_of_rotation = 'gba'} \\
+
+  \text{matrix} &= \begin{bmatrix}
+    1 & 0 & 0 & t_x \\
+    0 & 1 & 0 & t_y \\
+    0 & 0 & 1 & t_z \\
+    0 & 0 & 0 & 1
+  \end{bmatrix} \cdot R_z \cdot R_y \cdot R_x
+  && \text{order_of_rotation = 'abg'}
+\end{aligned}
+++++
+
+[stem]
+++++
+\begin{aligned}
+  R_x &= \begin{bmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & \cos(r_x) & -\sin(r_x) & 0 \\
+    0 & \sin(r_x) & \cos(r_x) & 0 \\
+    0 & 0 & 0 & 1
+  \end{bmatrix} \\
+
+  R_y &= \begin{bmatrix}
+    \cos(r_y) & 0 & \sin(r_y) & 0 \\
+    0 & 1 & 0 & 0 \\
+    -\sin(r_y) & 0 & \cos(r_y) & 0 \\
+    0 & 0 & 0 & 1
+  \end{bmatrix} \\
+
+  R_z &= \begin{bmatrix}
+    \cos(r_z) & -\sin(r_z) & 0 & 0 \\
+    \sin(r_z) & \cos(r_z) & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 1
+  \end{bmatrix}
+\end{aligned}
+++++
+
+HALCON:
+
+[,hdevelop]
+----
+pose = create_pose(tx, ty, tz, deg(rx), deg(ry), deg(rz), 'Rp+T', order_of_rotation, 'point')
+matrix = pose_to_hom_mat3d(pose)
+----
+
+PCL:
+
+[,cpp]
+----
+Eigen::Affine3f matrix = Eigen::Affine3f::Identity();
+matrix.rotate(Eigen::AngleAxisf(rz, Eigen::Vector3f::UnitZ())); <1>
+matrix.rotate(Eigen::AngleAxisf(ry, Eigen::Vector3f::UnitY())); <1>
+matrix.rotate(Eigen::AngleAxisf(rx, Eigen::Vector3f::UnitX())); <1>
+matrix.translate(Eigen::Vector3f(tx, ty, tz));
+----
+<1> This example corresponds to HALCON's behavior when `order_of_rotation` is `'abg'`. To recreate the behavior when `order_of_rotation` is `'gba'`, the order of the rotations should be reversed.

@@ -1,5 +1,12 @@
 ADOC ?= asciidoctor
-ADOC_FLAGS += --failure-level WARN -a source-highlighter@=rouge -a idprefix=@ -a toc@=left -a toclevels@=3 -a docinfo@=shared -a stem@=latexmath
+ADOC_FLAGS += --failure-level WARN \
+	-a source-highlighter@=rouge \
+	-a icons@=font \
+	-a idprefix=@ \
+	-a toc@=left \
+	-a toclevels@=3 \
+	-a docinfo@=shared \
+	-a stem@=latexmath
 
 TARGETS = index.html
 SRCS := $(shell find . -name \*.adoc -printf '%P\n') docinfo.html
