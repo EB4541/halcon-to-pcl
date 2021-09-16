@@ -12,7 +12,7 @@ HALCON:
 
 [,hdevelop]
 ----
-matrix = hom_mat2d_identity()
+hom_mat2d_identity(matrix)
 ----
 
 PCL:
@@ -35,7 +35,7 @@ HALCON:
 
 [,hdevelop]
 ----
-matrix_inverted = hom_mat2d_invert(matrix)
+hom_mat2d_invert(matrix, matrix_inverted)
 ----
 
 PCL:
@@ -56,7 +56,7 @@ HALCON:
 
 [,hdevelop]
 ----
-matrix_transposed = hom_mat2d_transpose(matrix)
+hom_mat2d_transpose(matrix, matrix_transposed)
 ----
 
 PCL:
@@ -77,7 +77,7 @@ HALCON:
 
 [,hdevelop]
 ----
-determinant = hom_mat2d_determinant(matrix)
+hom_mat2d_determinant(matrix, determinant)
 ----
 
 PCL:
@@ -98,7 +98,7 @@ HALCON:
 
 [,hdevelop]
 ----
-product = hom_mat2d_compose(matrix_a, matrix_b)
+hom_mat2d_compose(matrix_a, matrix_b, product)
 ----
 
 PCL:
@@ -125,7 +125,7 @@ HALCON:
 
 [,hdevelop]
 ----
-matrix_rotated = hom_mat2d_rotate_local(matrix, phi)
+hom_mat2d_rotate_local(matrix, phi, matrix_rotated)
 ----
 
 PCL:
@@ -153,7 +153,7 @@ HALCON:
 
 [,hdevelop]
 ----
-matrix_scaled = hom_mat2d_scale_local(matrix, sx, sy)
+hom_mat2d_scale_local(matrix, sx, sy, matrix_scaled)
 ----
 
 PCL:
@@ -181,7 +181,7 @@ HALCON:
 
 [,hdevelop]
 ----
-matrix_translated = hom_mat2d_translate_local(matrix, tx, ty)
+hom_mat2d_translate_local(matrix, tx, ty, matrix_translated)
 ----
 
 PCL:
@@ -215,7 +215,7 @@ HALCON:
 
 [,hdevelop]
 ----
-reflection = hom_mat2d_reflect_local(matrix, px, py)
+hom_mat2d_reflect_local(matrix, px, py, reflection)
 ----
 
 PCL:
@@ -256,7 +256,7 @@ HALCON:
 
 [,hdevelop]
 ----
-matrix_slanted = hom_mat2d_slant_local(matrix, theta, axis)
+hom_mat2d_slant_local(matrix, theta, axis, matrix_slanted)
 ----
 
 PCL:

@@ -10,9 +10,9 @@ HALCON:
 
 [,hdevelop]
 ----
-cloud_transformed = affine_trans_object_model_3d(cloud, matrix) * Affine transformation described by matrix
+affine_trans_object_model_3d(cloud, matrix, cloud_transformed) * Affine transformation described by matrix
 * or
-cloud_transformed = rigid_trans_object_model_3d(cloud, pose) * Rigid transformation described by pose
+rigid_trans_object_model_3d(cloud, pose, cloud_transformed) * Rigid transformation described by pose
 ----
 
 PCL:
@@ -36,7 +36,7 @@ HALCON:
 
 [,hdevelop]
 ----
-normals = surface_noramls_object_model_3d(cloud, method, gen_param_name, gen_param_value)
+surface_noramls_object_model_3d(cloud, method, gen_param_name, gen_param_value, normals)
 ----
 
 TODO
@@ -45,7 +45,7 @@ TODO
 
 [,hdevelop]
 ----
-cloud_smoothed = smooth_object_model_3d(cloud, method, gen_param_name, gen_param_value)
+smooth_object_model_3d(cloud, method, gen_param_name, gen_param_value, cloud_smoothed)
 ----
 
 TODO
