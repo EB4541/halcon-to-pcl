@@ -13,3 +13,7 @@ include::transformations.adoc[]
 == File I/O
 
 == Creating Visualisations
+
+== Graphics, Mouse
+
+== Graphics, Text
