@@ -1,0 +1,54 @@
+== Graphics, Text
+
+HALCON:
+
+[,hdevelop]
+---
+disp_text( : : WindowHandle, String, CoordSystem, Row, Column, Color, GenParamName, GenParamValue : )
+---
+
+PCL:
+
+[,cpp]
+---
+viewer->addText ("String", X_position, Y_position, id, Viewport);
+---
+
+String is the text you would like to display. The X_position and Y_position are where you would like the text to be displayed, if X and Y = 10, the text will be shown in the bottom left corner. id is the text object, equal to the text parameter
+
+TODO (Example and picture)
+
+
+HALCON: 
+
+[,hdevelop]
+---
+new_line( : : WindowHandle : )
+---
+
+PCL:
+
+[,cpp]
+---
+viewer->addText ("First line \n Second line", X_position, Y_position, id, Viewport);
+---
+
+We can use the addText function as before but simply adding a newline marker creates a secondary line in the window. Dont forgt to change your X and Y positions for the text appropriately.
+
+
+HALCON: 
+
+[,hdevelop]
+---
+qery_font( : : WindowHandle : Font)
+---
+
+Queries the fonts available for the text output window. They can be set with the operator set_font
+
+PCL:
+
+[,cpp]
+---
+(Not sure if necassary)
+---
+
