@@ -58,8 +58,8 @@ HALCON:
 
 [,hdevelop]
 ----
-pose = create_pose(tx, ty, tz, deg(rx), deg(ry), deg(rz), 'Rp+T', order_of_rotation, 'point')
-matrix = pose_to_hom_mat3d(pose)
+create_pose(tx, ty, tz, deg(rx), deg(ry), deg(rz), 'Rp+T', order_of_rotation, 'point', pose)
+pose_to_hom_mat3d(pose, matrix)
 ----
 
 PCL:
