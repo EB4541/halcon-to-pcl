@@ -30,22 +30,64 @@ pcl::transformPointCloud(cloud, cloud_transformed, offset, rotation); // <3>
 <2> `indices` is of type `pcl::PointIndices`, see <<Segmenting Point Clouds>> (TODO) for detail.
 <3> This performs a rigid transformation described by a `Eigen::Vector3f` `offset` and a `Eigen::Quaternion` `rotation`.
 
+==== Smooth points in a point cloud
+
+HALCON:
+
+[,hdevelop]
+----
+smooth_object_model_3d(cloud, 'mls', ['mls_kNN', 'mls_order'], [mls_kNN, mls_order], cloud_smoothed)
+----
+
+PCL:
+
+[,cpp]
+----
+#include <pcl/point_types.h>
+#include <pcl/search/kdtree.h>
+#include <pcl/surface/mls.h>
+
+pcl::PointCloud<pcl::PointNormal> cloud_smoothed;
+
+pcl::MovingLeastSquares<pcl::PointXYZ, pcl::PointNormal> mls;
+mls.setInputCloud(cloud.makeShared());
+mls.setComputeNormals(true);
+mls.setPolynomialOrder(2); // corresponds to mls_order
+mls.setSearchMethod(std::make_shared<pcl::search::KdTree<pcl::PointXYZ>>());
+mls.setSearchRadius(0.03); // radius used for determining mls_kNN
+
+mls.process(cloud_smoothed);
+----
+
 ==== Calculate the 3D surface normals of a point cloud
 
 HALCON:
 
 [,hdevelop]
 ----
-surface_noramls_object_model_3d(cloud, method, gen_param_name, gen_param_value, normals)
+surface_noramls_object_model_3d(cloud, 'mls', ['mls_kNN', 'mls_order'], [mls_kNN, mls_order], cloud_with_normals)
 ----
 
-TODO
+PCL (with MLS smoothing):
 
-==== Smooth points in a point cloud
+See <<Smooth points in a point cloud>>.
 
-[,hdevelop]
+PCL (without smoothing):
+
+[,cpp]
 ----
-smooth_object_model_3d(cloud, method, gen_param_name, gen_param_value, cloud_smoothed)
-----
+#include <pcl/point_types.h>
+#include <pcl/features/normal_3d.h>
 
-TODO
+pcl::PointCloud<pcl::Normal> normals;
+
+pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
+ne.setInputCloud(cloud.makeShared());
+ne.setSearchMethod(std::make_shared<pcl::search::KdTree<pcl::PointXYZ>>());
+ne.setRadiusSearch(0.03);
+
+ne.compute(normals);
+
+pcl::PointCloud<pcl::PointNormal> cloud_with_normals;
+pcl::concatenateFields(cloud, normals, cloud_with_normals);
+----
