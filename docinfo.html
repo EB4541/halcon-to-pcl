@@ -1,34 +1,37 @@
-<!-- Make 3rd-level TOC collapsible -->
+<!-- Make TOC collapsible -->
 
 <style>
   #toc.toc2 ul ul {
     padding-left: 1.5em;
   }
-  .sectlevel3 {
+  #toc.toc2 ul {
     display: none;
   }
-  .sectlevel2 > li > input[type=checkbox] {
+  #toc.toc2 .sectlevel1 {
+    display: block;
+  }
+  #toc.toc2 ul > li > input[type=checkbox] {
     display: inline-block;
     appearance: none;
     cursor: pointer;
     width: 0.6em;
     text-align: center;
   }
-  .sectlevel2 > li > input[type=checkbox]::before {
+  #toc.toc2 ul > li > input[type=checkbox]::before {
     content: '+';
   }
-  .sectlevel2 > li > input[type=checkbox]:checked::before {
+  #toc.toc2 ul > li > input[type=checkbox]:checked::before {
     content: '-';
   }
-  .sectlevel2 > li > input[type=checkbox]:checked ~ .sectlevel3 {
+  #toc.toc2 ul > li > input[type=checkbox]:checked ~ ul {
     display: block;
   }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  Array.from(document.querySelectorAll('.sectlevel2 > li > a')).forEach((link) => {
-    if (!link.parentNode.getElementsByTagName('ul').length) return;
+  Array.from(document.querySelectorAll('#toc.toc2 ul > li > a')).forEach((link) => {
+    if (link.parentNode.getElementsByTagName('ul').length === 0) return;
 
     var btn = document.createElement('input');
     btn.type = 'checkbox';

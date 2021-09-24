@@ -1,10 +1,6 @@
 == Transforming Point Clouds
 
-=== Transforming Point Clouds
-
-// TODO: fix 2nd-level ToC collapsing
-
-==== Apply a 3D transformation to a point cloud
+=== Apply a 3D transformation to a point cloud
 
 HALCON:
 
@@ -30,7 +26,7 @@ pcl::transformPointCloud(cloud, cloud_transformed, offset, rotation); // <3>
 <2> `indices` is of type `pcl::PointIndices`, see <<Segmenting Point Clouds>> (TODO) for detail.
 <3> This performs a rigid transformation described by a `Eigen::Vector3f` `offset` and a `Eigen::Quaternion` `rotation`.
 
-==== Smooth points in a point cloud
+=== Smooth points in a point cloud
 
 HALCON:
 
@@ -59,7 +55,7 @@ mls.setSearchRadius(0.03); // radius used for determining mls_kNN
 mls.process(cloud_smoothed);
 ----
 
-==== Calculate the 3D surface normals of a point cloud
+=== Calculate the 3D surface normals of a point cloud
 
 HALCON:
 
