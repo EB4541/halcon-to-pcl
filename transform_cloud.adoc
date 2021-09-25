@@ -9,6 +9,8 @@ HALCON:
 affine_trans_object_model_3d(cloud, matrix, cloud_transformed) * Affine transformation described by matrix
 * or
 rigid_trans_object_model_3d(cloud, pose, cloud_transformed) * Rigid transformation described by pose
+* or
+projective_trans_object_model_3d(cloud, matrix, cloud_transformed) * Projective transformation described by matrix
 ----
 
 PCL:
@@ -80,10 +82,126 @@ pcl::PointCloud<pcl::Normal> normals;
 pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
 ne.setInputCloud(cloud.makeShared());
 ne.setSearchMethod(std::make_shared<pcl::search::KdTree<pcl::PointXYZ>>());
-ne.setRadiusSearch(0.03);
+// one of:
+ne.setKSearch(20); // 20 nearest points
+ne.setRadiusSearch(0.03); // points inside sphere of radius 0.03 units
 
 ne.compute(normals);
 
 pcl::PointCloud<pcl::PointNormal> cloud_with_normals;
 pcl::concatenateFields(cloud, normals, cloud_with_normals);
+----
+
+=== Calculate the convex hull of a point cloud
+
+HALCON:
+
+[,hdevelop]
+----
+convex_hull_object_model_3d(cloud, cloud_hull)
+----
+
+PCL:
+
+[,cpp]
+----
+#include <pcl/point_types.h>
+#include <pcl/surface/convex_hull.h>
+
+pcl::PointCloud<pcl::PointXYZ> cloud_hull;
+
+pcl::ConvexHull<pcl::PointXYZ> chull;
+chull.setInputCloud(cloud.makeShared());
+chull.reconstruct(cloud_hull);
+----
+
+=== Obtain a triangulated mesh of a point cloud (greedy)
+
+HALCON:
+
+[,hdevelop]
+----
+triangulate_object_model_3d(cloud, 'greedy', ['greedy_kNN', 'greedy_radius_type', 'greedy_radius_value', 'greedy_neigh_orient_tol', 'greedy_neigh_orient_consistent'], [greedy_kNN, 'fixed', greedy_radius_value, greedy_neigh_orient_tol, greedy_neigh_orient_consistent], triangulated_mesh, information)
+----
+
+PCL:
+
+[,cpp]
+----
+#include <pcl/point_types.h>
+#include <pcl/kdtree/kdtree_flann.h>
+#include <pcl/surface/gp3.h>
+
+// First, obtain cloud_with_normals as described in <1>
+
+pcl::PolygonMesh triangulated_mesh;
+
+pcl::GreedyProjectionTriangulation<pcl::PointNormal> gp3;
+gp3.setSearchRadius(greedy_radius_value);
+gp3.setMu(2.5);
+gp3.setMaximumNearestNeighbors(greedy_kNN);
+gp3.setMaximumSurfaceAngle(greedy_neigh_orient_tol / 180 * M_PI);
+gp3.setMinimumAngle(M_PI / 18); // 10 degrees
+gp3.setMaximumAngle(2 * M_PI / 3); // 120 degrees
+gp3.setNormalConsistency(greedy_neigh_orient_consistent);
+
+gp3.setInputCloud(cloud_with_normals.makeShared());
+gp3.setSearchMethod(std::make_shared<pcl::search::KdTree<pcl::PointNormal>>());
+gp3.reconstruct(triangulated_mesh);
+----
+<1> <<Calculate the 3D surface normals of a point cloud>>
+
+=== Obtain a triangulated mesh of a point cloud (Poisson)
+
+HALCON:
+
+[,hdevelop]
+----
+triangulate_object_model_3d(cloud, 'implicit', ['implicit_octree_depth', 'implicit_min_num_samples'], [implicit_octree_depth, implicit_min_num_samples], triangulated_mesh, information)
+----
+
+PCL:
+
+[,cpp]
+----
+#include <pcl/point_types.h>
+#include <pcl/kdtree/kdtree_flann.h>
+#include <pcl/surface/poisson.h>
+
+pcl::PolygonMesh triangulated_mesh;
+
+pcl::Poisson<pcl::PointNormal> poisson;
+poisson.setDepth(implicit_octree_depth);
+poisson.setSamplesPerNode(implicit_min_num_samples);
+poisson.setOutputPolygons(true);
+
+poisson.setInputCloud(cloud_with_normals.makeShared());
+poisson.setSearchMethod(std::make_shared<pcl::search::KdTree<pcl::PointNormal>>());
+poisson.performReconstruction(triangulated_mesh);
+----
+
+=== Downsample a point cloud
+
+HALCON:
+
+[,hdevelop]
+----
+sample_object_model_3d(cloud, 'fast', distance, [], [], cloud_sampled)
+----
+
+PCL:
+
+While not the same algorithm, it does perform sampling.
+
+[,cpp]
+----
+#include <pcl/point_types.h>
+#include <pcl/filters/voxel_grid.h>
+
+pcl::VoxelGrid<pcl::PointXYZ> sor;
+sor.setInputCloud(cloud.makeShared());
+sor.setLeafSize(distance, distance, distance);
+
+pcl::PointCloud<pcl::PointXYZ> cloud_sampled;
+sor.filter(cloud_sampled);
 ----
