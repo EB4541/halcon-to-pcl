@@ -1,5 +1,35 @@
 == Segmenting Point Clouds
 
+=== Using Point Indices
+
+Many segmentation algorithms in PCL emit a `pcl::PointIndices` as the result instead of copying the point cloud.
+
+Most algorithms in PCL accept smart pointers of such indices via the `.setIndices()` method to select points from the input cloud:
+
+[,cpp]
+----
+alg.setInputCloud(cloud.makeShared());
+alg.setIndices(std::make_shared<pcl::PointIndices>(indices));
+----
+
+One may also want to extract the points indexed by the indices into a new point cloud:
+
+[,cpp]
+----
+#include <pcl/filters/extract_indices.h>
+
+pcl::PointCloud<pcl::PointXYZ> cloud_filtered;
+
+pcl::ExtractIndices<pcl::PointXYZ> extract;
+extract.setInputCloud(cloud.makeShared());
+extract.setIndices(std::make_shared<pcl::PointIndices>(indices));
+extract.filter(cloud_filtered);
+// or extract them manually
+for (auto &index : indices.indices) {
+  cloud_filtered.push_back(cloud[index]);
+}
+----
+
 === Select points from a point cloud based on simple thresholds
 
 HALCON:
@@ -23,10 +53,14 @@ pass.setFilterLimits(min_value, max_value);
 
 pcl::PointCloud<pcl::PointXYZ> cloud_filtered;
 pass.filter(cloud_filtered);
+// or
+pcl::PointIndices indices_filtered;
+pass.filter(indices_filtered); <2>
 ----
-<1> `attrib` is a `std:string`, its possible values for a particular point type can be found at https://pointclouds.org/documentation/common_2include_2pcl_2point__types_8h_source.html[pcl/point_types.h]. For `pcl::PointXYZ`, they are `'x'`, `'y'`, `'z'`.
+<1> `attrib` is a `std:string`, its possible values for a particular point type can be found at https://pointclouds.org/documentation/common_2include_2pcl_2point__types_8h_source.html[pcl/point_types.h]. For `pcl::PointXYZ`, they are `"x"`, `"y"`, `"z"`.
+<2> See <<Using Point Indices>>.
 
-If multiple thresholds, or more flexible arrangements of thresholds are desired, `pcl::ConditionalRemoval` can be used: 
+If multiple thresholds, or more flexible arrangements of thresholds are desired, `pcl::ConditionalRemoval` can be used instead:
 
 [,cpp]
 ----
@@ -58,3 +92,73 @@ condition->addComparison(std::make_shared<pcl::FieldComparison<pcl::PointXYZ>>("
 ----
 
 See https://pointclouds.org/documentation/conditional__removal_8h_source.html[pcl/filters/conditional_removal.h] for more comparison types.
+
+=== Segment a point cloud into clusters
+
+HALCON:
+
+[,hdevelop]
+----
+connection_object_model_3d(cloud, feature, value, clusters)
+----
+
+`feature` can either be:
+
+* `'distance_3d'`, which separates points whose euclidean distances are `value` units apart.
+* `'angle'`, which separates points whose normal angles are `value` radians apart.
+
+PCL (segmenting based on euclidean distances):
+
+[,cpp]
+----
+#include <pcl/segmentation/extract_clusters.h>
+
+std::vector<pcl::PointIndices> cluster_indices; // result vector <2>
+
+pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
+ec.setInputCloud(cloud.makeShared());
+ec.setClusterTolerance(distance);
+ec.setMinClusterSize(min_pts); // <1><3>
+ec.setMaxClusterSize(max_pts); // <1><3>
+ec.extract(cluster_indices);
+// or use an existing function:
+auto tree = std::make_shared<pcl::search::KdTree<pcl::PointXYZ>>();
+tree->setInputCloud(cloud.makeShared());
+pcl::extractEuclideanClusters(
+  cloud,
+  indices.indices, // input indices <1><2>
+  tree,
+  distance,
+  cluster_indices,
+  min_pts, // <1><3>
+  max_pts // <1><3>
+);
+----
+<1> Optional.
+<2> For how to use a `pcl::PointIndices`, see <<Using Point Indices>>.
+<3> `min_pts` and `max_pts` define the minimum and maximum points a cluster can have, they are optional.
+
+PCL (segmenting based on euclidean distances *as well as angles*):
+
+[,cpp]
+----
+#include <pcl/segmentation/extract_clusters.h>
+
+std::vector<pcl::PointIndices> cluster_indices; // result vector
+
+auto tree = std::make_shared<pcl::search::KdTree<pcl::PointXYZ>>();
+tree->setInputCloud(cloud.makeShared());
+pcl::extractEuclideanClusters(
+  cloud,
+  cloud_normals, // <2>
+  indices.indices, // input indices <1>
+  tree,
+  distance,
+  cluster_indices,
+  angle, // in radians
+  min_pts, // <1>
+  max_pts // <1>
+);
+----
+<1> Optional.
+<2> A `pcl::PointCloud<pcl::Normal>` containing normals of `cloud`, obtained with <<Calculate the 3D surface normals of a point cloud>>.

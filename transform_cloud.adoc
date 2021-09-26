@@ -25,7 +25,7 @@ pcl::transformPointCloud(cloud, indices, cloud_transformed, matrix); // <1><2>
 pcl::transformPointCloud(cloud, cloud_transformed, offset, rotation); // <3>
 ----
 <1> `matrix` is of type `Eigen::Transform` or `Eigen::Matrix`, see <<Transformations>> for details.
-<2> `indices` is of type `pcl::PointIndices`, see <<Segmenting Point Clouds>> (TODO) for detail.
+<2> `indices` is of type `pcl::PointIndices`, see <<Using Point Indices>> for detail.
 <3> This performs a rigid transformation described by a `Eigen::Vector3f` `offset` and a `Eigen::Quaternion` `rotation`.
 
 === Smooth points in a point cloud
