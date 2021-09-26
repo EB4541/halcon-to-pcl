@@ -30,7 +30,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  Array.from(document.querySelectorAll('#toc.toc2 ul > li > a')).forEach((link) => {
+  Array.from(document.querySelectorAll('#toc.toc2 ul > li > a')).forEach(function (link) {
     if (link.parentNode.getElementsByTagName('ul').length === 0) return;
 
     var btn = document.createElement('input');
@@ -39,10 +39,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var space = document.createTextNode(' ');
     link.parentNode.insertBefore(space, link);
-
-    link.addEventListener('click', function() {
-      btn.checked = true;
-    });
   });
+
+  function expandCurrentTocElement() {
+    var chosenAnchor = document.querySelector('#toc.toc2 ul > li > a[href="' + location.hash + '"]');
+    if (!chosenAnchor) return;
+
+    var chosenCheckbox = chosenAnchor.parentNode.querySelector('input[type=checkbox]');
+    if (!chosenCheckbox) return;
+
+    chosenCheckbox.checked = true;
+  }
+
+  expandCurrentTocElement();
+  window.addEventListener('hashchange', expandCurrentTocElement);
 });
 </script>
