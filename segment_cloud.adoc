@@ -1,0 +1,60 @@
+== Segmenting Point Clouds
+
+=== Select points from a point cloud based on simple thresholds
+
+HALCON:
+
+[,hdevelop]
+----
+select_points_object_model_3d(cloud, attrib, min_value, max_value, cloud_filtered)
+----
+
+PCL:
+
+[,cpp]
+----
+#include <pcl/point_types.h>
+#include <pcl/filters/passthrough.h>
+
+pcl::PassThrough<pcl::PointXYZ> pass;
+pass.setInputCloud(cloud.makeShared());
+pass.setFilterFieldName(attrib); // <1>
+pass.setFilterLimits(min_value, max_value);
+
+pcl::PointCloud<pcl::PointXYZ> cloud_filtered;
+pass.filter(cloud_filtered);
+----
+<1> `attrib` is a `std:string`, its possible values for a particular point type can be found at https://pointclouds.org/documentation/common_2include_2pcl_2point__types_8h_source.html[pcl/point_types.h]. For `pcl::PointXYZ`, they are `'x'`, `'y'`, `'z'`.
+
+If multiple thresholds, or more flexible arrangements of thresholds are desired, `pcl::ConditionalRemoval` can be used: 
+
+[,cpp]
+----
+#include <pcl/point_types.h>
+#include <pcl/filters/conditional_removal.h>
+
+pcl::ConditionalRemoval<pcl::PointXYZ> condrem;
+condrem.setInputCloud(cloud.makeShared());
+condrem.setCondition(condition);
+
+pcl::PointCloud<pcl::PointXYZ> cloud_filtered;
+condrem.filter(cloud_filtered);
+----
+
+where `condition` is one of:
+
+[,cpp]
+----
+auto condition = std::make_shared<pcl::ConditionAnd<pcl::PointXYZ>>();
+auto condition = std::make_shared<pcl::ConditionOr<pcl::PointXYZ>>();
+----
+
+and can be composed of multiple comparisons such as:
+
+[,cpp]
+----
+condition->addComparison(std::make_shared<pcl::FieldComparison<pcl::PointXYZ>>("z", pcl::ComparisonOps::GT, 0.0)); // z > 0.0
+condition->addComparison(std::make_shared<pcl::FieldComparison<pcl::PointXYZ>>("z", pcl::ComparisonOps::LE, 0.8)); // z <= 0.8
+----
+
+See https://pointclouds.org/documentation/conditional__removal_8h_source.html[pcl/filters/conditional_removal.h] for more comparison types.
