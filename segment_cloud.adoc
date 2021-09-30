@@ -169,3 +169,42 @@ pcl::extractEuclideanClusters(
 ----
 <1> Optional.
 <2> A `pcl::PointCloud<pcl::Normal>` containing normals of `cloud`, obtained with <<Calculate the 3D surface normals of a point cloud>>.
+
+=== Fit a point cloud into primitive shapes
+
+HALCON:
+
+[,hdevelop]
+----
+fit_primitives_object_model_3d(cloud, ['primitive_type'], [primitive_type], cloud_fitted)
+
+get_object_model_3d_params(cloud_fitted, ['primitive_parameter'], [primitive_parameter])
+----
+
+`primitive_type` can be `'cylinder'`, `'sphere'`, `'plane'`. There is no corresponding functionality in PCL to `'all'` or a list of primitive types.
+
+PCL:
+
+PCL uses Sample Consensus algorithms to fit primitives, instead of the least squares algorithm used by HALCON.
+
+[,cpp]
+----
+#include <pcl/sample_consensus/ransac.h> // <2>
+
+auto cloud_ptr = cloud.makeShared();
+
+auto model = std::make_shared<pcl::SampleConsensusModel...<pcl::PointXYZ>>(cloud_ptr); // <1>
+
+pcl::RandomSampleConsensus<pcl::PointXYZ> ransac(model); // <2>
+ransac.setDistanceThreshold(0.01);
+ransac.computeModel();
+
+pcl::PointIndices inliers;
+ransac.getInliers(inliers.indices); // <3>
+
+Eigen::VectorXf model_coefficients;
+ransac.getModelCoefficients(model_coefficients);
+----
+<1> Ellipsis should be replaced with one of the primitive types: `Plane`, `Line`, `Circle2D`, `Circle3D`, `Sphere`, `Cylinder`, `Cone` and more. See link:https://pointclouds.org/documentation/group__sample__consensus.html[PCL documentation] for a list, and what their resultant `model_coefficients` represent.
+<2> Instead of `RandomSampleConsensus`, alternatives exist per link:https://pointclouds.org/documentation/group__sample__consensus.html[PCL documentation].
+<3> See <<Using Point Indices>> for how to use this output data.
