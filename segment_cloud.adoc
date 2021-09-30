@@ -143,7 +143,7 @@ pcl::extractEuclideanClusters(
 ----
 <1> Optional.
 <2> For how to use a `pcl::PointIndices`, see <<Using Point Indices>>.
-<3> `min_pts` and `max_pts` define the minimum and maximum points a cluster can have, they are optional.
+<3> `min_pts` and `max_pts` define the minimum and maximum points a cluster can have.
 
 PCL (segmenting based on euclidean distances *as well as angles*):
 
