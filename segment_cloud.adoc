@@ -12,7 +12,7 @@ alg.setInputCloud(cloud.makeShared());
 alg.setIndices(std::make_shared<pcl::PointIndices>(indices));
 ----
 
-One may also want to extract the points indexed by the indices into a new point cloud:
+One may also want to extract the points indexed by the indices into a new point cloud, using an extractor class:
 
 [,cpp]
 ----
@@ -24,11 +24,18 @@ pcl::ExtractIndices<pcl::PointXYZ> extract;
 extract.setInputCloud(cloud.makeShared());
 extract.setIndices(std::make_shared<pcl::PointIndices>(indices));
 extract.filter(cloud_filtered);
-// or extract them manually
-for (auto &index : indices.indices) {
-  cloud_filtered.push_back(cloud[index]);
-}
 ----
+
+Or using `pcl::copyPointCloud()`, which assumes all indices are unique:
+
+[,cpp]
+----
+#include <pcl/common/io.h>
+
+pcl::copyPointCloud(cloud, indices, cloud_filtered);
+----
+
+The latter also works when `indices` is a `std::vector<pcl::PointIndices>`.
 
 === Select points from a point cloud based on simple thresholds
 
