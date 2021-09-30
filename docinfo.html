@@ -42,13 +42,19 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   function expandCurrentTocElement() {
-    var chosenAnchor = document.querySelector('#toc.toc2 ul > li > a[href="' + location.hash + '"]');
-    if (!chosenAnchor) return;
+    var anchor = document.querySelector('#toc.toc2 ul > li > a[href="' + location.hash + '"]');
+    if (!anchor) return;
 
-    var chosenCheckbox = chosenAnchor.parentNode.querySelector('input[type=checkbox]');
-    if (!chosenCheckbox) return;
-
-    chosenCheckbox.checked = true;
+    for (
+      var li = anchor.parentElement;
+      li.tagName === 'LI' && document.querySelector('#toc.toc2').contains(li);
+      li = li.parentElement.parentElement // goes up ToC hierarchy by each level
+    ) {
+      var checkbox = li.querySelector('input[type=checkbox]');
+      if (checkbox) {
+        checkbox.checked = true;
+      }
+    }
   }
 
   expandCurrentTocElement();
