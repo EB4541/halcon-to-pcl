@@ -205,6 +205,6 @@ ransac.getInliers(inliers.indices); // <3>
 Eigen::VectorXf model_coefficients;
 ransac.getModelCoefficients(model_coefficients);
 ----
-<1> Ellipsis should be replaced with one of the primitive types: `Plane`, `Line`, `Circle2D`, `Circle3D`, `Sphere`, `Cylinder`, `Cone` and more. See link:https://pointclouds.org/documentation/group__sample__consensus.html[PCL documentation] for a list, and what their resultant `model_coefficients` represent.
-<2> Instead of `RandomSampleConsensus`, alternatives exist per link:https://pointclouds.org/documentation/group__sample__consensus.html[PCL documentation].
+<1> Ellipsis should be replaced with one of the primitive types: `Plane`, `Line`, `Circle2D`, `Circle3D`, `Sphere`, `Cylinder`, `Cone` and more. See link:++https://pointclouds.org/documentation/group__sample__consensus.html++[PCL documentation] for a list, and what their resultant `model_coefficients` represent.
+<2> Instead of `RandomSampleConsensus`, alternatives exist per link:++https://pointclouds.org/documentation/group__sample__consensus.html++[PCL documentation].
 <3> See <<Using Point Indices>> for how to use this output data.
