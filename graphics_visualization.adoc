@@ -1,16 +1,43 @@
 == Creating Visualisations
 
-HALCON:
+HALCON
 [,hdevelop]
 ----
-read_object_model_3d( : : FileName, Scale, GenParamName, GenParamValue : ObjectModel3D, Status)
+disp_object_model_3d( : : WindowHandle, ObjectModel3D, CamParam, Pose, GenParamName, GenParamValue :)
 ----
-The operator read_object_model_3d reads a 3D object model from the file FileName and returns a 3D object model handle in ObjectModel3D. 
 
+In PCL the visualisations are created mainly thorugh the format of a dedicated visualisation function. These visualisations can be manipulated and changed to suit the users needs. The visualisation function below creates a visualizer window called "New Cloud". Following this the cloud data, 'img', with a name for identification, "cloud_name". 
 
 PCL:
 [,cpp]
 ----
-pcl::visualization::PCLVisualizer viewer;
-viewer.addPointCloud(std::<pointCloudXYZ>(new PointCloudXYZ(img)), cloud_name);
+pcl::visualization::PCLVisualizer::Ptr viewer(new pcl::visualization::visualizer ("New Cloud"));
+viewer->addPointCloud(std::<pointCloudXYZ>(new PointCloudXYZ(img)), cloud_name);
 ----
+
+== Cloud Point Size and Colour
+For colour and size we can adjust these through the set viewer model similar to the addPointCloud model. However, these require some inputs. 
+	- Size 	Can be a number an int from 1.0 and above
+	- r, g, b, are the colours Red, Green and Blue which can have a lightness or darkness level between 0.0 (dark) and 1.0 (light) inclusive.
+
+PCL:
+[,cpp]
+----
+viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, size, cloud_name)
+
+viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_COLOR, r, g, b, cloud_name)
+----
+
+There are also some basic colourmaps premade for use by PCL, these can be found at the link provided under rendering properties.
+ https://pointclouds.org/documentation/namespacepcl_1_1visualization.html#a4fd43ffdf1620ea8cefc233d2a7e5bea
+
+
+== Line Width 
+Line Width uses the same paramater styles as the Point Size method above, integers from 1.0 and up
+PCL:
+[,cpp]
+----
+viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_LINE_WIDTH, size, cloud_name)
+----
+
+

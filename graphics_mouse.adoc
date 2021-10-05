@@ -1,74 +1,50 @@
 == Graphics, Mouse
 
-HALCON:
+Get Mouse Pointer coordinates (Window) 'MouseEvent'
+For the HALCON code below the function returns the location of the mouse pointer relative to the windows coordinates (row and column) of the pixels covered by the window. The button pressed on the mouse is calculated using a binary code system that once added up reveals all the numbers that wer pressed. The final value is returned to the 'Button' variable. This is also true for the 'sub_pix' variation but that returns the values with sub pixel accuracy.
 
+
+HALCON:
 [,hdevelop]
 ----
 get_mbutton( : : WindowHandle : Row, Column, Button)
-----
-
-PCL: 
-[,cpp]
-----
-pcl::visualisation::PointPickingCallback::performAreaPick()
-----
-
-
-HALCON:
-
-[,hdevelop]
-----
 get_mbutton_sub_pix( : : WindowHandle : Row, Column, Button)
 ----
 
+In PCL there is a class for this called 'MouseEvent'. This class captures the mouse location on the window, the button pressed and also captures certain keys on teh keyboard to assess for 'special' commands. 
+MouseEvent class saves the following inputs:
+ 	- type   			Event type (Pressed or Released)
+ 	- button 			The Button that causes the event
+	- x      			X position of mouse pointer at that time where event got fired
+	- y      			Y position of mouse pointer at that time where event got fired
+ 	- alt    			Whether the ALT key was pressed at that time where event got fired
+ 	- ctrl   			Whether the CTRL key was pressed at that time where event got fired
+ 	- shift  			Whether the Shift key was pressed at that time where event got fired
+ 	- selection_mode 	Whether we are in selection mode
+
+To aquire this information within the window you will need to implement the following code in the PCLVisualizer containing your cloud point data.
+
 PCL: 
 [,cpp]
 ----
-pcl::visualisation:: (TODO)
+#include <pcl/visualization/keyboard_event.h> 
+// Example Visualisation function
+pcl::visualization::PCLVisualizer::Ptr viewer (new pcl::visualization::PCLVisualizer ("3D Viewer"));
+viewer->registerMouseCallback (mouseEventOccured, (void*)&viewer);
+
+void mouseEventOccured (const pcl::visualization::MouseEvent &event, void* viewer_void)
+{
+	// In this section you are able to recall the class 'MouseEvent' using the getters below. 
+	std::cout << event.getType() << std::endl; 					//Displays the Event Type to terminal
+	std::cout << event.getButton() << std::endl;				//Displays the Button that caused event to terminal
+	std::cout << event.getX() << std::endl;						//Displays the X coordinate to terminal
+	std::cout << event.getY() << std::endl;						//Displays the Y coordinate to terminal
+	std::cout << event.getKeyboardModifiers() << std::endl;		//Displays the Keyboard keys pressed to terminal
+	std::cout << event.getSelectionMode() << std::endl;			//Displays the selection mode to terminal
+}	
 ----
 
-
-HALCON:
-----
-get_mposition( : : WindowHandle : Row, Column, Button)
-----
-
-PCL:
-
-
-
-HALCON:
-
-[,hdevelop]
-----
-get_mposition_sub_pix( : : WindowHandle : Row, Column, Button)
-----
-
-PCL:
-[,cpp]
-----
-
-----
-
-HALCON:
-
-[,hdevelop]
-----
-getmshape( : : WindowHandle : Cursor)
-----
-
-PCL:
-[,cpp]
-----
-
-----
-
-HALCON:
-
-[,hdevelop]
-----
-query_mshape( : : WindowHandle : ShapeNames)
-----
+Selecting Areas or Multiple Points
 
 PCL:
 [,cpp]
@@ -77,36 +53,17 @@ PCL:
 ----
 
 
-HALCON:
+Double Click
+In HALCON there is a function that allows for a double click to be registered on the window. This capability is not yet seen in the visualizer window for PCL. However they have allowed for certain keyboard inputs to be registered by the mouse event as well. These options can be seen above.
 
+HALCON:
 [,hdevelop]
 ---
 send_mouse_double_click_event( : : WindowHandle, Row, Column, Button : Processed)
 ---
 
-PCL:
-[,cpp]
----
-
----
-
 
 HALCON:
-
-[,hdevelop]
----
-send_mouse_down_event( : : WindowHandle, Row, Column, Button : Processed)
----
-
-PCL:
-[,cpp]
----
-
----
-
-
-HALCON:
-
 [,hdevelop]
 ---
 send_mouse_drag_event( : : WindowHandle, Row, Column, Button : Processed)
@@ -118,33 +75,25 @@ PCL:
 
 ---
 
+This mouse button event sends the position of the mouse in the window to the 'WindowHandle' and this signals the 'Button' has been released. The 'Button' is a previously coded mouse event. See Mouse Event for more details.
 
 HALCON:
-
 [,hdevelop]
 ---
 send_mouse_up_event( : : WindowHandle, Row, Column, Button : Processed)
+send_mouse_down_event( : : WindowHandle, Row, Column, Button : Processed)
 ---
 
-PCL:
-[,cpp]
----
-
----
-
+The functions below relates to the shape of the pointer for the window that will display the graphics in HALCON.
 
 HALCON:
-
 [,hdevelop]
 ---
 set_mshape( : : WindowHandle, Cursor : )
+getmshape( : : WindowHandle : Cursor)
+query_mshape( : : WindowHandle : ShapeNames)
 ---
 
-PCL:
-[,cpp]
----
-
----
 
 
 
