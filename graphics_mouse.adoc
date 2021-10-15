@@ -44,12 +44,50 @@ void mouseEventOccured (const pcl::visualization::MouseEvent &event, void* viewe
 }	
 ----
 
-Selecting Areas or Multiple Points
-
+== Selecting Areas or Multiple Points
+For selecting areas and points in a Point Cloud viewer there must be a selected mouse callback function ot register the input from the user. 
+The mouse naturally drags and orientates the image when the M1 button is clicked. To register a mouse callback with a specific function you can use the above function with specified additions.
+To search for a mouse input option such as the 'alt' key.
+Following this you must decide what to do with the data once selected. This can be to copy the selected points or to adjust the colour using the coding options detailed in Graphics Visualisations of this document.
 PCL:
 [,cpp]
 ----
+boost::signals2::connection pcl::visualization::PCLVisualizer::registerPointPickingCallback 	( 	std::function< void(const pcl::visualization::PointPickingEvent &)>  	cb	) 	
+// Where cb is the CallBack function 
 
+// ALSO
+// Under the class PointPickingEvent
+#include <pcl/pcl_macros.h>
+#include <pcl/types.h> // for pcl::indices
+viewer->registerPointPickingCallback (performPointPick,(void*)&viewer)
+
+void performPointPick()
+{
+	getPointIndex(idx_);
+	[x,y,z] = getPoint(float &x, float &y, float &z) const;	
+	std::cout << "Point Picked Location: " + idx_ << std::endl;
+	// displays the point index for point data.
+	std::cout << getPoint(float &x, float &y, float &z) const;	
+	// displays the point coordinates for point.
+}
+----
+
+
+== Selecting single Points
+Similar rules apply as the Selecting areas section.
+PCL:
+[,cpp]
+----
+boost::signals2::connection pcl::visualization::PCLVisualizer::registerPointPickingCallback 	( 	std::function< void(const pcl::visualization::PointPickingEvent &)>  	cb	) 	
+// Where cb is the CallBack function 
+
+// ALSO 
+// Under the class PointPickingEvent
+#include <pcl/pcl_macros.h>
+#include <pcl/types.h> // for pcl::indices
+viewer->registerPointPickingCallback (performAreaPick,(void*)&viewer)
+
+void performAreaPick()
 ----
 
 

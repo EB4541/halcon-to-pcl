@@ -48,4 +48,3 @@ PCL:
 ----
 viewer->setBackgroundColor(r, g, b, cloud_name)
 ----
-

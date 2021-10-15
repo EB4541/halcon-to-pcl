@@ -58,11 +58,23 @@ qery_font( : : WindowHandle : Font)
 
 Queries the fonts available for the text output window. They can be set with the operator set_font
 
-PCL:
 
+== Adding 3D Text (Point Specified/Locked)
+PCL:
 [,cpp]
 ----
-(Not sure if necassary)
+#include <pcl/visualization/pcl_visualizer.h>
+
+ pcl::visualization::PCLVisualizer::addText3D (
+   const std::string &text,
+   const PointT& position,
+   double orientation[3],
+   double textScale = 1.0,
+   double r = 1.0,
+   double g = 1.0,
+   double b = 1.0,
+   const std::string &id = 0,
+   int viewport)
 ----
 
 
