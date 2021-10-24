@@ -8,16 +8,20 @@ ADOC_FLAGS += --failure-level WARN \
 	-a docinfo@=shared \
 	-a stem@=latexmath
 
-TARGETS = index.html
+TARGETS = index.html print.html
 SRCS := $(shell find . -name \*.adoc -printf '%P\n') docinfo.html
 
 .DELETE_ON_ERROR:
 
 .PHONY: all clean watch
+default: index.html
 all: $(TARGETS)
 
 index.html: $(SRCS)
 	$(ADOC) $(ADOC_FLAGS) index.adoc --out-file $@
+
+print.html: $(SRCS)
+	$(ADOC) $(subst toc@=left,toc@=auto,$(ADOC_FLAGS)) index.adoc --out-file $@
 
 clean:
 	rm -rf $(TARGETS)
