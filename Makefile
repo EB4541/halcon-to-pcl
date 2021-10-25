@@ -21,7 +21,7 @@ index.html: $(SRCS)
 	$(ADOC) $(ADOC_FLAGS) index.adoc --out-file $@
 
 print.html: $(SRCS)
-	$(ADOC) $(subst toc@=left,toc@=auto,$(ADOC_FLAGS)) index.adoc --out-file $@
+	$(ADOC) $(subst toc@=left,toc@=auto,$(ADOC_FLAGS)) -a !last-update-label@ index.adoc --out-file $@
 
 clean:
 	rm -rf $(TARGETS)
