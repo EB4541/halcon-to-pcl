@@ -7,7 +7,7 @@ For all of the PCL code below the examples are all coded within a visualizer for
 ----
 #include <pcl/visualization/pcl_visualizer.h>
 
-void launch_visualization( TODO &cloud) {
+pcl::visualization::PCLVisualizer::Ptr simpleVis (pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud){
 	pcl::visualization::PCLVisualizer::Ptr viewer (new pcl::PCLVisualizer ("3D viewer"));
 	viewer->addPointCloud<pcl::PointXYZ> (cloud, "sample data");
 	// Viewer extras (i.e. point size, colour of background and data, text)
