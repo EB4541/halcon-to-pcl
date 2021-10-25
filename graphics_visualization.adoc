@@ -5,16 +5,16 @@
 Using PCL-tools on ubuntu you are able to easily visualize any PCD file from the terminal using the below function.
 This is a simple way to check PCD data files before you implement them into long visualization processes.
 
-[,cpp]
+[,bash]
 ----
-ubuntu-terminal:~/home$ pcl_viewer PCD_file.pcd 
+$ pcl_viewer PCD_file.pcd 
 ----
 image::img/terminal_PCD.png[]
 
 Installing PCL-tools is as simple as the following terminal command line in ubuntu.
-[,cpp]
+[,bash]
 ----
-ubuntu-terminal:~/home$ sudo apt install pcl-tools 
+$ sudo apt install pcl-tools 
 ----
 
 
