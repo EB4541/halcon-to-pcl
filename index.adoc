@@ -2,8 +2,6 @@
 
 include::manage_cloud.adoc[]
 
-== Calculating Features of Point Clouds
-
 include::segment_cloud.adoc[]
 
 include::transform_cloud.adoc[]
