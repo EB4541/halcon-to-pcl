@@ -10,10 +10,4 @@ include::transform_cloud.adoc[]
 
 include::transformations.adoc[]
 
-== File I/O
-
-== Creating Visualisations
-
-== Graphics, Mouse
-
-== Graphics, Text
+include::visualization.adoc[]

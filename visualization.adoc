@@ -1,0 +1,7 @@
+== Visualization
+
+include::graphics_visualization.adoc[]
+
+include::graphics_text.adoc[]
+
+include::graphics_mouse.adoc[]

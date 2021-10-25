@@ -1,6 +1,6 @@
-== Graphics, Mouse
+=== Graphics, Mouse
 
-Get Mouse Pointer coordinates (Window) 'MouseEvent'
+==== Get Mouse Pointer coordinates (Window) 'MouseEvent'
 For the HALCON code below the function returns the location of the mouse pointer relative to the windows coordinates (row and column) of the pixels covered by the window. The button pressed on the mouse is calculated using a binary code system that once added up reveals all the numbers that wer pressed. The final value is returned to the 'Button' variable. This is also true for the 'sub_pix' variation but that returns the values with sub pixel accuracy.
 
 
@@ -44,17 +44,23 @@ void mouseEventOccured (const pcl::visualization::MouseEvent &event, void* viewe
 }	
 ----
 
-== Selecting Areas or Multiple Points
-For selecting areas and points in a Point Cloud viewer there must be a selected mouse callback function ot register the input from the user. 
+==== Selecting Areas or Multiple Points
+For selecting areas and points in a Point Cloud viewer there must be a selected mouse callback function ot register the input from the user.
 The mouse naturally drags and orientates the image when the M1 button is clicked. To register a mouse callback with a specific function you can use the above function with specified additions.
 To search for a mouse input option such as the 'alt' key.
 Following this you must decide what to do with the data once selected. This can be to copy the selected points or to adjust the colour using the coding options detailed in Graphics Visualisations of this document.
+
+
 PCL:
 [,cpp]
 ----
-boost::signals2::connection pcl::visualization::PCLVisualizer::registerPointPickingCallback 	( 	std::function< void(const pcl::visualization::PointPickingEvent &)>  	cb	) 	
+boost::signals2::connection pcl::visualization::PCLVisualizer::registerPointPickingCallback (std::function< void(const pcl::visualization::PointPickingEvent &)> cb	) ;	
 // Where cb is the CallBack function 
+----
 
+PCL:
+[,cpp]
+----
 // ALSO
 // Under the class PointPickingEvent
 #include <pcl/pcl_macros.h>
@@ -73,12 +79,12 @@ void performPointPick()
 ----
 
 
-== Selecting single Points
+==== Selecting single Points
 Similar rules apply as the Selecting areas section.
 PCL:
 [,cpp]
 ----
-boost::signals2::connection pcl::visualization::PCLVisualizer::registerPointPickingCallback 	( 	std::function< void(const pcl::visualization::PointPickingEvent &)>  	cb	) 	
+boost::signals2::connection pcl::visualization::PCLVisualizer::registerPointPickingCallback (std::function< void(const pcl::visualization::PointPickingEvent &)> cb) 	
 // Where cb is the CallBack function 
 
 // ALSO 
@@ -91,47 +97,44 @@ void performAreaPick()
 ----
 
 
-Double Click
+==== Double Click
 In HALCON there is a function that allows for a double click to be registered on the window. This capability is not yet seen in the visualizer window for PCL. However they have allowed for certain keyboard inputs to be registered by the mouse event as well. These options can be seen above.
 
 HALCON:
 [,hdevelop]
----
+----
 send_mouse_double_click_event( : : WindowHandle, Row, Column, Button : Processed)
----
+----
 
+==== Drag Event
 
 HALCON:
 [,hdevelop]
----
+----
 send_mouse_drag_event( : : WindowHandle, Row, Column, Button : Processed)
----
+----
 
-PCL:
-[,cpp]
----
-
----
+PCL does not have an available drag event for personal adjustment, the current drag movement on the window allows for the point cloud data to be rotated and pivoted throughout the viewer.
 
 This mouse button event sends the position of the mouse in the window to the 'WindowHandle' and this signals the 'Button' has been released. The 'Button' is a previously coded mouse event. See Mouse Event for more details.
 
+==== Send Mouse Up/Down Event 
+
 HALCON:
 [,hdevelop]
----
+----
 send_mouse_up_event( : : WindowHandle, Row, Column, Button : Processed)
 send_mouse_down_event( : : WindowHandle, Row, Column, Button : Processed)
----
+----
 
-The functions below relates to the shape of the pointer for the window that will display the graphics in HALCON.
+The send mouse up and down event in halcon is similiar to the PCL get.point caller for PCL. It takes the pointers location from the window and states the current position in the window or function specified.
 
-HALCON:
-[,hdevelop]
----
-set_mshape( : : WindowHandle, Cursor : )
-getmshape( : : WindowHandle : Cursor)
-query_mshape( : : WindowHandle : ShapeNames)
----
-
+PCL:
+[,cpp]
+----
+	std::cout << event.getX() << std::endl;						//Displays the X coordinate to terminal
+	std::cout << event.getY() << std::endl;						//Displays the Y coordinate to terminal
+----
 
 
 
