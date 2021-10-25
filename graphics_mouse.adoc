@@ -1,4 +1,5 @@
-=== Graphics, Mouse
+
+=== Mouse
 
 ==== Get Mouse Pointer coordinates (Window) 'MouseEvent'
 For the HALCON code below the function returns the location of the mouse pointer relative to the windows coordinates (row and column) of the pixels covered by the window. The button pressed on the mouse is calculated using a binary code system that once added up reveals all the numbers that wer pressed. The final value is returned to the 'Button' variable. This is also true for the 'sub_pix' variation but that returns the values with sub pixel accuracy.

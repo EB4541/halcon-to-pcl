@@ -1,3 +1,4 @@
+
 === Creating Visualisations
 
 ==== Displaying the raw PCD file data
@@ -50,8 +51,7 @@ viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POI
 viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_COLOR, r, g, b, cloud_name)
 ----
 
-There are also some basic colourmaps premade for use by PCL, these can be found at the link provided under rendering properties.
- https://pointclouds.org/documentation/namespacepcl_1_1visualization.html#a4fd43ffdf1620ea8cefc233d2a7e5bea
+There are also some basic colourmaps premade for use by PCL, these can be found at https://pointclouds.org/documentation/namespacepcl_1_1visualization.html#a283c01126d7d30bab271e86a4ea5c5ee[the link provided] under rendering properties.
 
 
 ==== Line Width 
