@@ -1,0 +1,2751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<title>HALCON to PCL Function Comparison</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;-webkit-tap-highlight-color:transparent}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos{border-right:1px solid;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge .cm {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .cp {
+  color: #999999;
+  font-weight: bold;
+}
+pre.rouge .c1 {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .cs {
+  color: #999999;
+  font-weight: bold;
+  font-style: italic;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .err {
+  color: #a61717;
+  background-color: #e3d2d2;
+}
+pre.rouge .gd {
+  color: #000000;
+  background-color: #ffdddd;
+}
+pre.rouge .ge {
+  color: #000000;
+  font-style: italic;
+}
+pre.rouge .gr {
+  color: #aa0000;
+}
+pre.rouge .gh {
+  color: #999999;
+}
+pre.rouge .gi {
+  color: #000000;
+  background-color: #ddffdd;
+}
+pre.rouge .go {
+  color: #888888;
+}
+pre.rouge .gp {
+  color: #555555;
+}
+pre.rouge .gs {
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #aaaaaa;
+}
+pre.rouge .gt {
+  color: #aa0000;
+}
+pre.rouge .kc {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kd {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kn {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kp {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kr {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kt {
+  color: #445588;
+  font-weight: bold;
+}
+pre.rouge .k, pre.rouge .kv {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .mf {
+  color: #009999;
+}
+pre.rouge .mh {
+  color: #009999;
+}
+pre.rouge .il {
+  color: #009999;
+}
+pre.rouge .mi {
+  color: #009999;
+}
+pre.rouge .mo {
+  color: #009999;
+}
+pre.rouge .m, pre.rouge .mb, pre.rouge .mx {
+  color: #009999;
+}
+pre.rouge .sa {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .sb {
+  color: #d14;
+}
+pre.rouge .sc {
+  color: #d14;
+}
+pre.rouge .sd {
+  color: #d14;
+}
+pre.rouge .s2 {
+  color: #d14;
+}
+pre.rouge .se {
+  color: #d14;
+}
+pre.rouge .sh {
+  color: #d14;
+}
+pre.rouge .si {
+  color: #d14;
+}
+pre.rouge .sx {
+  color: #d14;
+}
+pre.rouge .sr {
+  color: #009926;
+}
+pre.rouge .s1 {
+  color: #d14;
+}
+pre.rouge .ss {
+  color: #990073;
+}
+pre.rouge .s, pre.rouge .dl {
+  color: #d14;
+}
+pre.rouge .na {
+  color: #008080;
+}
+pre.rouge .bp {
+  color: #999999;
+}
+pre.rouge .nb {
+  color: #0086B3;
+}
+pre.rouge .nc {
+  color: #445588;
+  font-weight: bold;
+}
+pre.rouge .no {
+  color: #008080;
+}
+pre.rouge .nd {
+  color: #3c5d5d;
+  font-weight: bold;
+}
+pre.rouge .ni {
+  color: #800080;
+}
+pre.rouge .ne {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nf, pre.rouge .fm {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nl {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nn {
+  color: #555555;
+}
+pre.rouge .nt {
+  color: #000080;
+}
+pre.rouge .vc {
+  color: #008080;
+}
+pre.rouge .vg {
+  color: #008080;
+}
+pre.rouge .vi {
+  color: #008080;
+}
+pre.rouge .nv, pre.rouge .vm {
+  color: #008080;
+}
+pre.rouge .ow {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .o {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .w {
+  color: #bbbbbb;
+}
+pre.rouge {
+  background-color: #f8f8f8;
+}
+</style>
+<style>
+  .stemblock {
+    overflow-x: auto;
+  }
+</style>
+
+<!-- Make TOC collapsible -->
+
+<style>
+  #toc.toc2 ul ul {
+    padding-left: 1.5em;
+  }
+  #toc.toc2 ul {
+    display: none;
+  }
+  #toc.toc2 .sectlevel1 {
+    display: block;
+  }
+  #toc.toc2 ul > li > input[type=checkbox] {
+    display: inline-block;
+    appearance: none;
+    cursor: pointer;
+    width: 0.6em;
+    text-align: center;
+  }
+  #toc.toc2 ul > li > input[type=checkbox]::before {
+    content: '+';
+  }
+  #toc.toc2 ul > li > input[type=checkbox]:checked::before {
+    content: '-';
+  }
+  #toc.toc2 ul > li > input[type=checkbox]:checked ~ ul {
+    display: block;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  Array.from(document.querySelectorAll('#toc.toc2 ul > li > a')).forEach(function (link) {
+    if (link.parentNode.getElementsByTagName('ul').length === 0) return;
+
+    var btn = document.createElement('input');
+    btn.type = 'checkbox';
+    link.parentNode.insertBefore(btn, link);
+
+    var space = document.createTextNode(' ');
+    link.parentNode.insertBefore(space, link);
+  });
+
+  function expandCurrentTocElement() {
+    var anchor = document.querySelector('#toc.toc2 ul > li > a[href="' + location.hash + '"]');
+    if (!anchor) return;
+
+    for (
+      var li = anchor.parentElement;
+      li.tagName === 'LI' && document.querySelector('#toc.toc2').contains(li);
+      li = li.parentElement.parentElement // goes up ToC hierarchy by each level
+    ) {
+      var checkbox = li.querySelector('input[type=checkbox]');
+      if (checkbox) {
+        checkbox.checked = true;
+      }
+    }
+  }
+
+  expandCurrentTocElement();
+  window.addEventListener('hashchange', expandCurrentTocElement);
+});
+</script>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>HALCON to PCL Function Comparison</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#managing_point_clouds">Managing Point Clouds</a>
+<ul class="sectlevel2">
+<li><a href="#creating_point_clouds">Creating</a>
+<ul class="sectlevel3">
+<li><a href="#create_an_empty_point_cloud">Create an empty point cloud</a></li>
+<li><a href="#copy_a_point_cloud">Copy a point cloud</a></li>
+<li><a href="#create_a_point_cloud_from_a_set_of_points">Create a point cloud from a set of points</a></li>
+<li><a href="#combine_point_clouds">Combine point clouds</a></li>
+<li><a href="#free_the_memory_occupied_by_a_point_cloud">Free the memory occupied by a point cloud</a></li>
+</ul>
+</li>
+<li><a href="#point_cloud_io">I/O</a>
+<ul class="sectlevel3">
+<li><a href="#read_a_point_cloud_from_a_file">Read a point cloud from a file</a></li>
+<li><a href="#save_a_point_cloud_to_a_file">Save a point cloud to a file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#segmenting_point_clouds">Segmenting Point Clouds</a>
+<ul class="sectlevel2">
+<li><a href="#using_point_indices">Using Point Indices</a></li>
+<li><a href="#select_points_from_a_point_cloud_based_on_simple_thresholds">Select points from a point cloud based on simple thresholds</a></li>
+<li><a href="#segment_a_point_cloud_into_clusters">Segment a point cloud into clusters</a></li>
+<li><a href="#fit_a_point_cloud_into_primitive_shapes">Fit a point cloud into primitive shapes</a></li>
+</ul>
+</li>
+<li><a href="#transforming_point_clouds">Transforming Point Clouds</a>
+<ul class="sectlevel2">
+<li><a href="#apply_a_3d_transformation_to_a_point_cloud">Apply a 3D transformation to a point cloud</a></li>
+<li><a href="#smooth_points_in_a_point_cloud">Smooth points in a point cloud</a></li>
+<li><a href="#calculate_the_3d_surface_normals_of_a_point_cloud">Calculate the 3D surface normals of a point cloud</a></li>
+<li><a href="#calculate_the_convex_hull_of_a_point_cloud">Calculate the convex hull of a point cloud</a></li>
+<li><a href="#obtain_a_triangulated_mesh_of_a_point_cloud_greedy">Obtain a triangulated mesh of a point cloud (greedy)</a></li>
+<li><a href="#obtain_a_triangulated_mesh_of_a_point_cloud_poisson">Obtain a triangulated mesh of a point cloud (Poisson)</a></li>
+<li><a href="#downsample_a_point_cloud">Downsample a point cloud</a></li>
+</ul>
+</li>
+<li><a href="#transformations">Transformations</a>
+<ul class="sectlevel2">
+<li><a href="#2d_homogeneous_transformation_matrices">2D Homogeneous Transformation Matrices</a>
+<ul class="sectlevel3">
+<li><a href="#create_a_2d_identity_transformation_matrix">Create a 2D identity transformation matrix</a></li>
+<li><a href="#invert_a_2d_transformation_matrix">Invert a 2D transformation matrix</a></li>
+<li><a href="#transpose_a_2d_transformation_matrix">Transpose a 2D transformation matrix</a></li>
+<li><a href="#compute_the_determinant_of_a_2d_transformation_matrix">Compute the determinant of a 2D transformation matrix</a></li>
+<li><a href="#multiply_2_2d_transformation_matrices">Multiply 2 2D transformation matrices</a></li>
+<li><a href="#add_rotation_to_a_2d_transformation_matrix">Add rotation to a 2D transformation matrix</a></li>
+<li><a href="#add_scaling_to_a_2d_transformation_matrix">Add scaling to a 2D transformation matrix</a></li>
+<li><a href="#add_translation_to_a_2d_transformation_matrix">Add translation to a 2D transformation matrix</a></li>
+<li><a href="#add_reflection_to_a_2d_transformation_matrix">Add reflection to a 2D transformation matrix</a></li>
+<li><a href="#add_slant_to_a_2d_transformation_matrix">Add slant to a 2D transformation matrix</a></li>
+</ul>
+</li>
+<li><a href="#3d_homogeneous_transformation_matrices">3D Homogeneous Transformation Matrices</a>
+<ul class="sectlevel3">
+<li><a href="#create_a_3d_identity_transformation_matrix">Create a 3D identity transformation matrix</a></li>
+<li><a href="#invert_a_3d_transformation_matrix">Invert a 3D transformation matrix</a></li>
+<li><a href="#transpose_a_3d_transformation_matrix">Transpose a 3D transformation matrix</a></li>
+<li><a href="#compute_the_determinant_of_a_3d_transformation_matrix">Compute the determinant of a 3D transformation matrix</a></li>
+<li><a href="#multiply_2_3d_transformation_matrices">Multiply 2 3D transformation matrices</a></li>
+<li><a href="#add_rotation_to_a_3d_transformation_matrix">Add rotation to a 3D transformation matrix</a></li>
+<li><a href="#add_scaling_to_a_3d_transformation_matrix">Add scaling to a 3D transformation matrix</a></li>
+<li><a href="#add_translation_to_a_3d_transformation_matrix">Add translation to a 3D transformation matrix</a></li>
+</ul>
+</li>
+<li><a href="#poses">Poses</a>
+<ul class="sectlevel3">
+<li><a href="#create_a_3d_transformation_matrix_from_rotation_angles_and_translations">Create a 3D transformation matrix from rotation angles and translations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#visualization">Visualization</a>
+<ul class="sectlevel2">
+<li><a href="#creating_visualisations">Creating Visualisations</a>
+<ul class="sectlevel3">
+<li><a href="#displaying_the_raw_pcd_file_data">Displaying the raw PCD file data</a></li>
+<li><a href="#displaying_point_cloud_data_from_ide">Displaying Point Cloud Data From IDE</a></li>
+<li><a href="#cloud_point_properties_colour_and_size">Cloud Point Properties (Colour and Size)</a></li>
+<li><a href="#line_width">Line Width</a></li>
+<li><a href="#background_properties">Background Properties</a></li>
+</ul>
+</li>
+<li><a href="#text">Text</a>
+<ul class="sectlevel3">
+<li><a href="#adding_2d_text">Adding 2D Text</a></li>
+<li><a href="#example_of_simple_adjustments">Example of Simple Adjustments</a></li>
+<li><a href="#adding_3d_text_point_specifiedlocked">Adding 3D Text (Point Specified/Locked)</a></li>
+</ul>
+</li>
+<li><a href="#mouse">Mouse</a>
+<ul class="sectlevel3">
+<li><a href="#get_mouse_pointer_coordinates_window_mouseevent">Get Mouse Pointer coordinates (Window) 'MouseEvent'</a></li>
+<li><a href="#selecting_areas_or_multiple_points">Selecting Areas or Multiple Points</a></li>
+<li><a href="#selecting_single_points">Selecting single Points</a></li>
+<li><a href="#double_click">Double Click</a></li>
+<li><a href="#drag_event">Drag Event</a></li>
+<li><a href="#send_mouse_updown_event">Send Mouse Up/Down Event</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="managing_point_clouds">Managing Point Clouds</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="creating_point_clouds">Creating</h3>
+<div class="sect3">
+<h4 id="create_an_empty_point_cloud">Create an empty point cloud</h4>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">gen_empty_object_model_3d(cloud)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">cloud</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL also has built-in smart pointer types of point clouds.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;::</span><span class="n">Ptr</span> <span class="nf">cloud_ptr</span><span class="p">(</span><span class="k">new</span> <span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span><span class="p">());</span>
+<span class="c1">// or</span>
+<span class="k">auto</span> <span class="n">cloud_ptr</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span><span class="p">();</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="copy_a_point_cloud">Copy a point cloud</h4>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">copy_object_model_3d(cloud, cloud_copy)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">cloud_copy</span> <span class="o">=</span> <span class="n">cloud</span><span class="p">;</span> <span class="c1">// stack to stack</span>
+<span class="c1">// or</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;::</span><span class="n">Ptr</span> <span class="n">cloud_ptr_copy</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="o">*</span><span class="n">cloud_ptr</span><span class="p">);</span> <span class="c1">// heap to heap</span>
+<span class="c1">// or</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;::</span><span class="n">Ptr</span> <span class="n">cloud_ptr</span> <span class="o">=</span> <span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">();</span> <span class="c1">// stack to heap</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="create_a_point_cloud_from_a_set_of_points">Create a point cloud from a set of points</h4>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="paragraph">
+<p>Consumes 3 arrays of the same length: <code>xx</code>, <code>yy</code>, <code>zz</code>, which store the X, Y, Z coordinates of those points.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">gen_object_model_3d_from_points(xx, yy, zz, cloud)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="paragraph">
+<p>There is no dedicated function, the programmer has to add the points with a loop. Assume <code>xx</code>, <code>yy</code>, <code>zz</code> are vectors of the same length.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;::</span><span class="n">Ptr</span> <span class="nf">cloud</span><span class="p">(</span><span class="k">new</span> <span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span><span class="p">());</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">xx</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">cloud</span><span class="o">-&gt;</span><span class="n">push</span><span class="p">(</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">yy</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">zz</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="combine_point_clouds">Combine point clouds</h4>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">union_object_model_3d([cloud_a, cloud_b], cloud_combined)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="k">auto</span> <span class="n">cloud_combined</span> <span class="o">=</span> <span class="n">cloud_a</span> <span class="o">+</span> <span class="n">cloud_b</span><span class="p">;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="free_the_memory_occupied_by_a_point_cloud">Free the memory occupied by a point cloud</h4>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">clear_object_model_3d(cloud)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="paragraph">
+<p>Subject to C++ object lifetime rules.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="point_cloud_io">I/O</h3>
+<div class="sect3">
+<h4 id="read_a_point_cloud_from_a_file">Read a point cloud from a file</h4>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">read_object_model_3d(filename, cloud)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Specifying file format (one of <code>'om3'</code>, <code>'dxf'</code>, <code>'off'</code>, <code>'ply'</code>, <code>'obj'</code>, <code>'stl'</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">cloud = read_object_model_3d(file_name, 'm', ['file_type'], [file_format])</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">cloud</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">load</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">perror</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Specifying file format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="c1">// Instead of pcl::io::load(filename, cloud), use one of:</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">loadIFSFile</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">loadOBJFile</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">loadPCDFile</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">loadPLYFile</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="save_a_point_cloud_to_a_file">Save a point cloud to a file</h4>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">write_object_model_3d(cloud, file_type, file_name)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>file_type</code> is one of <code>'om3'</code>, <code>'dxf'</code>, <code>'off'</code>, <code>'ply'</code>, <code>'ply_binary'</code>, <code>'obj'</code>, <code>'stl'</code>, <code>'stl_binary'</code>, <code>'stl_ascii'</code>.</p>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="c1">// One of:</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">save</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span> <span class="c1">// auto detect IFS, PCD or PLY</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">saveIFSFile</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">saveOBJFile</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">savePCDFile</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">savePCDFileASCII</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">savePCDFileBinary</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">savePCDFileBinaryCompressed</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">savePLYFile</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">savePLYFileASCII</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="n">savePLYFileBinary</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">);</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="segmenting_point_clouds">Segmenting Point Clouds</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="using_point_indices">Using Point Indices</h3>
+<div class="paragraph">
+<p>Many segmentation algorithms in PCL emit a <code>pcl::PointIndices</code> as the result instead of copying the point cloud.</p>
+</div>
+<div class="paragraph">
+<p>Most algorithms in PCL accept smart pointers of such indices via the <code>.setIndices()</code> method to select points from the input cloud:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">alg</span><span class="p">.</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">alg</span><span class="p">.</span><span class="n">setIndices</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointIndices</span><span class="o">&gt;</span><span class="p">(</span><span class="n">indices</span><span class="p">));</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>One may also want to extract the points indexed by the indices into a new point cloud, using an extractor class:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/filters/extract_indices.h&gt;
+</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">cloud_filtered</span><span class="p">;</span>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">ExtractIndices</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">extract</span><span class="p">;</span>
+<span class="n">extract</span><span class="p">.</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">extract</span><span class="p">.</span><span class="n">setIndices</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointIndices</span><span class="o">&gt;</span><span class="p">(</span><span class="n">indices</span><span class="p">));</span>
+<span class="n">extract</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">cloud_filtered</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or using <code>pcl::copyPointCloud()</code>, which assumes all indices are unique:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/common/io.h&gt;
+</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">copyPointCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">cloud_filtered</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The latter also works when <code>indices</code> is a <code>std::vector&lt;pcl::PointIndices&gt;</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="select_points_from_a_point_cloud_based_on_simple_thresholds">Select points from a point cloud based on simple thresholds</h3>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">select_points_object_model_3d(cloud, attrib, min_value, max_value, cloud_filtered)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/point_types.h&gt;
+#include &lt;pcl/filters/passthrough.h&gt;
+</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">PassThrough</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">pass</span><span class="p">;</span>
+<span class="n">pass</span><span class="p">.</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">pass</span><span class="p">.</span><span class="n">setFilterFieldName</span><span class="p">(</span><span class="n">attrib</span><span class="p">);</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="n">pass</span><span class="p">.</span><span class="n">setFilterLimits</span><span class="p">(</span><span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">);</span>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">cloud_filtered</span><span class="p">;</span>
+<span class="n">pass</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">cloud_filtered</span><span class="p">);</span>
+<span class="c1">// or</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">PointIndices</span> <span class="n">indices_filtered</span><span class="p">;</span>
+<span class="n">pass</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">indices_filtered</span><span class="p">);</span> <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>attrib</code> is a <code>std:string</code>, its possible values for a particular point type can be found at <a href="https://pointclouds.org/documentation/common_2include_2pcl_2point__types_8h_source.html">pcl/point_types.h</a>. For <code>pcl::PointXYZ</code>, they are <code>"x"</code>, <code>"y"</code>, <code>"z"</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>See <a href="#using_point_indices">Using Point Indices</a>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If multiple thresholds, or more flexible arrangements of thresholds are desired, <code>pcl::ConditionalRemoval</code> can be used instead:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/point_types.h&gt;
+#include &lt;pcl/filters/conditional_removal.h&gt;
+</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">ConditionalRemoval</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">condrem</span><span class="p">;</span>
+<span class="n">condrem</span><span class="p">.</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">condrem</span><span class="p">.</span><span class="n">setCondition</span><span class="p">(</span><span class="n">condition</span><span class="p">);</span>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">cloud_filtered</span><span class="p">;</span>
+<span class="n">condrem</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">cloud_filtered</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>condition</code> is one of:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="k">auto</span> <span class="n">condition</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">ConditionAnd</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="k">auto</span> <span class="n">condition</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">ConditionOr</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;&gt;</span><span class="p">();</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and can be composed of multiple comparisons such as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">condition</span><span class="o">-&gt;</span><span class="n">addComparison</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">FieldComparison</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="s">"z"</span><span class="p">,</span> <span class="n">pcl</span><span class="o">::</span><span class="n">ComparisonOps</span><span class="o">::</span><span class="n">GT</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">));</span> <span class="c1">// z &gt; 0.0</span>
+<span class="n">condition</span><span class="o">-&gt;</span><span class="n">addComparison</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">FieldComparison</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="s">"z"</span><span class="p">,</span> <span class="n">pcl</span><span class="o">::</span><span class="n">ComparisonOps</span><span class="o">::</span><span class="n">LE</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">));</span> <span class="c1">// z &lt;= 0.8</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="https://pointclouds.org/documentation/conditional__removal_8h_source.html">pcl/filters/conditional_removal.h</a> for more comparison types.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="segment_a_point_cloud_into_clusters">Segment a point cloud into clusters</h3>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">connection_object_model_3d(cloud, feature, value, clusters)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>feature</code> can either be:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>'distance_3d'</code>, which separates points whose euclidean distances are <code>value</code> units apart.</p>
+</li>
+<li>
+<p><code>'angle'</code>, which separates points whose normal angles are <code>value</code> radians apart.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>PCL (segmenting based on euclidean distances):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/segmentation/extract_clusters.h&gt;
+</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointIndices</span><span class="o">&gt;</span> <span class="n">cluster_indices</span><span class="p">;</span> <span class="c1">// result vector </span><i class="conum" data-value="2"></i><b>(2)</b>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">EuclideanClusterExtraction</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">ec</span><span class="p">;</span>
+<span class="n">ec</span><span class="p">.</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">ec</span><span class="p">.</span><span class="n">setClusterTolerance</span><span class="p">(</span><span class="n">distance</span><span class="p">);</span>
+<span class="n">ec</span><span class="p">.</span><span class="n">setMinClusterSize</span><span class="p">(</span><span class="n">min_pts</span><span class="p">);</span> <i class="conum" data-value="1"></i><b>(1)</b> <i class="conum" data-value="3"></i><b>(3)</b>
+<span class="n">ec</span><span class="p">.</span><span class="n">setMaxClusterSize</span><span class="p">(</span><span class="n">max_pts</span><span class="p">);</span> <i class="conum" data-value="1"></i><b>(1)</b> <i class="conum" data-value="3"></i><b>(3)</b>
+<span class="n">ec</span><span class="p">.</span><span class="n">extract</span><span class="p">(</span><span class="n">cluster_indices</span><span class="p">);</span>
+<span class="c1">// or use an existing function:</span>
+<span class="k">auto</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">search</span><span class="o">::</span><span class="n">KdTree</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="n">tree</span><span class="o">-&gt;</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">extractEuclideanClusters</span><span class="p">(</span>
+  <span class="n">cloud</span><span class="p">,</span>
+  <span class="n">indices</span><span class="p">.</span><span class="n">indices</span><span class="p">,</span> <span class="c1">// input indices </span><i class="conum" data-value="1"></i><b>(1)</b> <i class="conum" data-value="2"></i><b>(2)</b>
+  <span class="n">tree</span><span class="p">,</span>
+  <span class="n">distance</span><span class="p">,</span>
+  <span class="n">cluster_indices</span><span class="p">,</span>
+  <span class="n">min_pts</span><span class="p">,</span> <i class="conum" data-value="1"></i><b>(1)</b> <i class="conum" data-value="3"></i><b>(3)</b>
+  <span class="n">max_pts</span> <i class="conum" data-value="1"></i><b>(1)</b> <i class="conum" data-value="3"></i><b>(3)</b>
+<span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>For how to use a <code>pcl::PointIndices</code>, see <a href="#using_point_indices">Using Point Indices</a>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><code>min_pts</code> and <code>max_pts</code> define the minimum and maximum points a cluster can have.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>PCL (segmenting based on euclidean distances <strong>as well as angles</strong>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/segmentation/extract_clusters.h&gt;
+</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointIndices</span><span class="o">&gt;</span> <span class="n">cluster_indices</span><span class="p">;</span> <span class="c1">// result vector</span>
+
+<span class="k">auto</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">search</span><span class="o">::</span><span class="n">KdTree</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="n">tree</span><span class="o">-&gt;</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">extractEuclideanClusters</span><span class="p">(</span>
+  <span class="n">cloud</span><span class="p">,</span>
+  <span class="n">cloud_normals</span><span class="p">,</span> <i class="conum" data-value="2"></i><b>(2)</b>
+  <span class="n">indices</span><span class="p">.</span><span class="n">indices</span><span class="p">,</span> <span class="c1">// input indices </span><i class="conum" data-value="1"></i><b>(1)</b>
+  <span class="n">tree</span><span class="p">,</span>
+  <span class="n">distance</span><span class="p">,</span>
+  <span class="n">cluster_indices</span><span class="p">,</span>
+  <span class="n">angle</span><span class="p">,</span> <span class="c1">// in radians</span>
+  <span class="n">min_pts</span><span class="p">,</span> <i class="conum" data-value="1"></i><b>(1)</b>
+  <span class="n">max_pts</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>A <code>pcl::PointCloud&lt;pcl::Normal&gt;</code> containing normals of <code>cloud</code>, obtained with <a href="#calculate_the_3d_surface_normals_of_a_point_cloud">Calculate the 3D surface normals of a point cloud</a>.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="fit_a_point_cloud_into_primitive_shapes">Fit a point cloud into primitive shapes</h3>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">fit_primitives_object_model_3d(cloud, ['primitive_type'], [primitive_type], cloud_fitted)
+
+get_object_model_3d_params(cloud_fitted, ['primitive_parameter'], [primitive_parameter])</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>primitive_type</code> can be <code>'cylinder'</code>, <code>'sphere'</code>, <code>'plane'</code>. There is no corresponding functionality in PCL to <code>'all'</code> or a list of primitive types.</p>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="paragraph">
+<p>PCL uses Sample Consensus algorithms to fit primitives, instead of the least squares algorithm used by HALCON.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/sample_consensus/ransac.h&gt; <i class="conum" data-value="2"></i><b>(2)</b>
+</span>
+<span class="k">auto</span> <span class="n">cloud_ptr</span> <span class="o">=</span> <span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">();</span>
+
+<span class="k">auto</span> <span class="n">model</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">SampleConsensusModel</span><span class="p">...</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">cloud_ptr</span><span class="p">);</span> <i class="conum" data-value="1"></i><b>(1)</b>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">RandomSampleConsensus</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">ransac</span><span class="p">(</span><span class="n">model</span><span class="p">);</span> <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="n">ransac</span><span class="p">.</span><span class="n">setDistanceThreshold</span><span class="p">(</span><span class="mf">0.01</span><span class="p">);</span>
+<span class="n">ransac</span><span class="p">.</span><span class="n">computeModel</span><span class="p">();</span>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">PointIndices</span> <span class="n">inliers</span><span class="p">;</span>
+<span class="n">ransac</span><span class="p">.</span><span class="n">getInliers</span><span class="p">(</span><span class="n">inliers</span><span class="p">.</span><span class="n">indices</span><span class="p">);</span> <i class="conum" data-value="3"></i><b>(3)</b>
+
+<span class="n">Eigen</span><span class="o">::</span><span class="n">VectorXf</span> <span class="n">model_coefficients</span><span class="p">;</span>
+<span class="n">ransac</span><span class="p">.</span><span class="n">getModelCoefficients</span><span class="p">(</span><span class="n">model_coefficients</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Ellipsis should be replaced with one of the primitive types: <code>Plane</code>, <code>Line</code>, <code>Circle2D</code>, <code>Circle3D</code>, <code>Sphere</code>, <code>Cylinder</code>, <code>Cone</code> and more. See <a href="https://pointclouds.org/documentation/group__sample__consensus.html">PCL documentation</a> for a list, and what their resultant <code>model_coefficients</code> represent.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Instead of <code>RandomSampleConsensus</code>, alternatives exist per <a href="https://pointclouds.org/documentation/group__sample__consensus.html">PCL documentation</a>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>See <a href="#using_point_indices">Using Point Indices</a> for how to use this output data.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="transforming_point_clouds">Transforming Point Clouds</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="apply_a_3d_transformation_to_a_point_cloud">Apply a 3D transformation to a point cloud</h3>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">affine_trans_object_model_3d(cloud, matrix, cloud_transformed) * Affine transformation described by matrix
+* or
+rigid_trans_object_model_3d(cloud, pose, cloud_transformed) * Rigid transformation described by pose
+* or
+projective_trans_object_model_3d(cloud, matrix, cloud_transformed) * Projective transformation described by matrix</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">cloud_transformed</span><span class="p">;</span>
+
+<span class="c1">// and then one of:</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">transformPointCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span> <span class="n">cloud_transformed</span><span class="p">,</span> <span class="n">matrix</span><span class="p">);</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="n">pcl</span><span class="o">::</span><span class="n">transformPointCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">cloud_transformed</span><span class="p">,</span> <span class="n">matrix</span><span class="p">);</span> <i class="conum" data-value="1"></i><b>(1)</b> <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="n">pcl</span><span class="o">::</span><span class="n">transformPointCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span> <span class="n">cloud_transformed</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">rotation</span><span class="p">);</span> <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>matrix</code> is of type <code>Eigen::Transform</code> or <code>Eigen::Matrix</code>, see <a href="#transformations">Transformations</a> for details.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>indices</code> is of type <code>pcl::PointIndices</code>, see <a href="#using_point_indices">Using Point Indices</a> for detail.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>This performs a rigid transformation described by a <code>Eigen::Vector3f</code> <code>offset</code> and a <code>Eigen::Quaternion</code> <code>rotation</code>.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="smooth_points_in_a_point_cloud">Smooth points in a point cloud</h3>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">smooth_object_model_3d(cloud, 'mls', ['mls_kNN', 'mls_order'], [mls_kNN, mls_order], cloud_smoothed)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/point_types.h&gt;
+#include &lt;pcl/search/kdtree.h&gt;
+#include &lt;pcl/surface/mls.h&gt;
+</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointNormal</span><span class="o">&gt;</span> <span class="n">cloud_smoothed</span><span class="p">;</span>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">MovingLeastSquares</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="p">,</span> <span class="n">pcl</span><span class="o">::</span><span class="n">PointNormal</span><span class="o">&gt;</span> <span class="n">mls</span><span class="p">;</span>
+<span class="n">mls</span><span class="p">.</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">mls</span><span class="p">.</span><span class="n">setComputeNormals</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<span class="n">mls</span><span class="p">.</span><span class="n">setPolynomialOrder</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="c1">// corresponds to mls_order</span>
+<span class="n">mls</span><span class="p">.</span><span class="n">setSearchMethod</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">search</span><span class="o">::</span><span class="n">KdTree</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;&gt;</span><span class="p">());</span>
+<span class="n">mls</span><span class="p">.</span><span class="n">setSearchRadius</span><span class="p">(</span><span class="mf">0.03</span><span class="p">);</span> <span class="c1">// radius used for determining mls_kNN</span>
+
+<span class="n">mls</span><span class="p">.</span><span class="n">process</span><span class="p">(</span><span class="n">cloud_smoothed</span><span class="p">);</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="calculate_the_3d_surface_normals_of_a_point_cloud">Calculate the 3D surface normals of a point cloud</h3>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">surface_noramls_object_model_3d(cloud, 'mls', ['mls_kNN', 'mls_order'], [mls_kNN, mls_order], cloud_with_normals)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL (with MLS smoothing):</p>
+</div>
+<div class="paragraph">
+<p>See <a href="#smooth_points_in_a_point_cloud">Smooth points in a point cloud</a>.</p>
+</div>
+<div class="paragraph">
+<p>PCL (without smoothing):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/point_types.h&gt;
+#include &lt;pcl/features/normal_3d.h&gt;
+</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">Normal</span><span class="o">&gt;</span> <span class="n">normals</span><span class="p">;</span>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">NormalEstimation</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="p">,</span> <span class="n">pcl</span><span class="o">::</span><span class="n">Normal</span><span class="o">&gt;</span> <span class="n">ne</span><span class="p">;</span>
+<span class="n">ne</span><span class="p">.</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">ne</span><span class="p">.</span><span class="n">setSearchMethod</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">search</span><span class="o">::</span><span class="n">KdTree</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;&gt;</span><span class="p">());</span>
+<span class="c1">// one of:</span>
+<span class="n">ne</span><span class="p">.</span><span class="n">setKSearch</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> <span class="c1">// 20 nearest points</span>
+<span class="n">ne</span><span class="p">.</span><span class="n">setRadiusSearch</span><span class="p">(</span><span class="mf">0.03</span><span class="p">);</span> <span class="c1">// points inside sphere of radius 0.03 units</span>
+
+<span class="n">ne</span><span class="p">.</span><span class="n">compute</span><span class="p">(</span><span class="n">normals</span><span class="p">);</span>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointNormal</span><span class="o">&gt;</span> <span class="n">cloud_with_normals</span><span class="p">;</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">concatenateFields</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span> <span class="n">normals</span><span class="p">,</span> <span class="n">cloud_with_normals</span><span class="p">);</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="calculate_the_convex_hull_of_a_point_cloud">Calculate the convex hull of a point cloud</h3>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">convex_hull_object_model_3d(cloud, cloud_hull)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/point_types.h&gt;
+#include &lt;pcl/surface/convex_hull.h&gt;
+</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">cloud_hull</span><span class="p">;</span>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">ConvexHull</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">chull</span><span class="p">;</span>
+<span class="n">chull</span><span class="p">.</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">chull</span><span class="p">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">cloud_hull</span><span class="p">);</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="obtain_a_triangulated_mesh_of_a_point_cloud_greedy">Obtain a triangulated mesh of a point cloud (greedy)</h3>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">triangulate_object_model_3d(cloud, 'greedy', ['greedy_kNN', 'greedy_radius_type', 'greedy_radius_value', 'greedy_neigh_orient_tol', 'greedy_neigh_orient_consistent'], [greedy_kNN, 'fixed', greedy_radius_value, greedy_neigh_orient_tol, greedy_neigh_orient_consistent], triangulated_mesh, information)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/point_types.h&gt;
+#include &lt;pcl/kdtree/kdtree_flann.h&gt;
+#include &lt;pcl/surface/gp3.h&gt;
+</span>
+<span class="c1">// First, obtain cloud_with_normals as described in </span><i class="conum" data-value="1"></i><b>(1)</b>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">PolygonMesh</span> <span class="n">triangulated_mesh</span><span class="p">;</span>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">GreedyProjectionTriangulation</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointNormal</span><span class="o">&gt;</span> <span class="n">gp3</span><span class="p">;</span>
+<span class="n">gp3</span><span class="p">.</span><span class="n">setSearchRadius</span><span class="p">(</span><span class="n">greedy_radius_value</span><span class="p">);</span>
+<span class="n">gp3</span><span class="p">.</span><span class="n">setMu</span><span class="p">(</span><span class="mf">2.5</span><span class="p">);</span>
+<span class="n">gp3</span><span class="p">.</span><span class="n">setMaximumNearestNeighbors</span><span class="p">(</span><span class="n">greedy_kNN</span><span class="p">);</span>
+<span class="n">gp3</span><span class="p">.</span><span class="n">setMaximumSurfaceAngle</span><span class="p">(</span><span class="n">greedy_neigh_orient_tol</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">);</span>
+<span class="n">gp3</span><span class="p">.</span><span class="n">setMinimumAngle</span><span class="p">(</span><span class="n">M_PI</span> <span class="o">/</span> <span class="mi">18</span><span class="p">);</span> <span class="c1">// 10 degrees</span>
+<span class="n">gp3</span><span class="p">.</span><span class="n">setMaximumAngle</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">M_PI</span> <span class="o">/</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// 120 degrees</span>
+<span class="n">gp3</span><span class="p">.</span><span class="n">setNormalConsistency</span><span class="p">(</span><span class="n">greedy_neigh_orient_consistent</span><span class="p">);</span>
+
+<span class="n">gp3</span><span class="p">.</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud_with_normals</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">gp3</span><span class="p">.</span><span class="n">setSearchMethod</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">search</span><span class="o">::</span><span class="n">KdTree</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointNormal</span><span class="o">&gt;&gt;</span><span class="p">());</span>
+<span class="n">gp3</span><span class="p">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">triangulated_mesh</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><a href="#calculate_the_3d_surface_normals_of_a_point_cloud">Calculate the 3D surface normals of a point cloud</a></td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="obtain_a_triangulated_mesh_of_a_point_cloud_poisson">Obtain a triangulated mesh of a point cloud (Poisson)</h3>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">triangulate_object_model_3d(cloud, 'implicit', ['implicit_octree_depth', 'implicit_min_num_samples'], [implicit_octree_depth, implicit_min_num_samples], triangulated_mesh, information)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/point_types.h&gt;
+#include &lt;pcl/kdtree/kdtree_flann.h&gt;
+#include &lt;pcl/surface/poisson.h&gt;
+</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">PolygonMesh</span> <span class="n">triangulated_mesh</span><span class="p">;</span>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">Poisson</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointNormal</span><span class="o">&gt;</span> <span class="n">poisson</span><span class="p">;</span>
+<span class="n">poisson</span><span class="p">.</span><span class="n">setDepth</span><span class="p">(</span><span class="n">implicit_octree_depth</span><span class="p">);</span>
+<span class="n">poisson</span><span class="p">.</span><span class="n">setSamplesPerNode</span><span class="p">(</span><span class="n">implicit_min_num_samples</span><span class="p">);</span>
+<span class="n">poisson</span><span class="p">.</span><span class="n">setOutputPolygons</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+
+<span class="n">poisson</span><span class="p">.</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud_with_normals</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">poisson</span><span class="p">.</span><span class="n">setSearchMethod</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">search</span><span class="o">::</span><span class="n">KdTree</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointNormal</span><span class="o">&gt;&gt;</span><span class="p">());</span>
+<span class="n">poisson</span><span class="p">.</span><span class="n">performReconstruction</span><span class="p">(</span><span class="n">triangulated_mesh</span><span class="p">);</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="downsample_a_point_cloud">Downsample a point cloud</h3>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">sample_object_model_3d(cloud, 'fast', distance, [], [], cloud_sampled)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="paragraph">
+<p>While not the same algorithm, it does perform sampling.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/point_types.h&gt;
+#include &lt;pcl/filters/voxel_grid.h&gt;
+</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">VoxelGrid</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">sor</span><span class="p">;</span>
+<span class="n">sor</span><span class="p">.</span><span class="n">setInputCloud</span><span class="p">(</span><span class="n">cloud</span><span class="p">.</span><span class="n">makeShared</span><span class="p">());</span>
+<span class="n">sor</span><span class="p">.</span><span class="n">setLeafSize</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">distance</span><span class="p">);</span>
+
+<span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="n">cloud_sampled</span><span class="p">;</span>
+<span class="n">sor</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">cloud_sampled</span><span class="p">);</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="transformations">Transformations</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+HALCON makes the distinction between pixel-centered and edge-centered Cartesian coordinate systems, functions may expect and output one coordinate system or the other (see <a href="https://www.mvtec.com/doc/halcon/2011/en/toc_transformations_2dtransformations.html">documentation</a>). Failure to conform may result in off-by-0.5-pixel errors. PCL does not make this distinction, it&#8217;s up to the programmer to ensure consistent use of coordinate systems.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>PCL uses the <a href="https://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> library to handle matrices. Eigen is not part of PCL. For the completeness of this document, its use is still provided under PCL code examples to provide parity with HALCON.</p>
+</div>
+<div class="paragraph">
+<p>In PCL, affine transformations are described by data types <code>Eigen::Affine2f</code> and <code>Eigen::Affine3f</code>, while projective transformations are described by data types <code>Eigen::Projective2f</code> and <code>Eigen::Projective3f</code>. They are all instantiations of the template class <code>Eigen::Transform</code>. Many of the PCL code examples in this chapter use the affine types, they are also applicable to projective transformations.</p>
+</div>
+<div class="sect2">
+<h3 id="2d_homogeneous_transformation_matrices">2D Homogeneous Transformation Matrices</h3>
+<div class="sect3">
+<h4 id="create_a_2d_identity_transformation_matrix">Create a 2D identity transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{matrix} = I_3\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat2d_identity(matrix)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span><span class="o">::</span><span class="n">Identity</span><span class="p">();</span>
+<span class="c1">// or, for existing matrix:</span>
+<span class="n">matrix</span><span class="p">.</span><span class="n">setIdentity</span><span class="p">();</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="invert_a_2d_transformation_matrix">Invert a 2D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{matrix_inverted} = \text{matrix}^{-1}\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat2d_invert(matrix, matrix_inverted)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span> <span class="n">matrix_inverted</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">inverse</span><span class="p">();</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="transpose_a_2d_transformation_matrix">Transpose a 2D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{matrix_transposed} = \text{matrix}^T\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat2d_transpose(matrix, matrix_transposed)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Projective2f</span> <span class="nf">matrix_transposed</span><span class="p">(</span><span class="n">matrix</span><span class="p">.</span><span class="n">matrix</span><span class="p">().</span><span class="n">transpose</span><span class="p">());</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="compute_the_determinant_of_a_2d_transformation_matrix">Compute the determinant of a 2D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{determinant} = | \text{matrix} |\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat2d_determinant(matrix, determinant)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">float</span> <span class="n">determinant</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">matrix</span><span class="p">().</span><span class="n">determinant</span><span class="p">();</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="multiply_2_2d_transformation_matrices">Multiply 2 2D transformation matrices</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{product} = \text{matrix_a} \cdot \text{matrix_b}\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat2d_compose(matrix_a, matrix_b, product)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span> <span class="n">product</span> <span class="o">=</span> <span class="n">matrix_a</span> <span class="o">*</span> <span class="n">matrix_b</span><span class="p">;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="add_rotation_to_a_2d_transformation_matrix">Add rotation to a 2D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{matrix_rotated} = \text{matrix} \cdot \begin{bmatrix}
+  \cos(\phi) &amp; -\sin(\phi) &amp; 0 \\
+  \sin(\phi) &amp; \cos(\phi) &amp; 0 \\
+  0 &amp; 0 &amp; 1
+\end{bmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p><code>phi</code> is the angle of rotation in radians.</p>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat2d_rotate_local(matrix, phi, matrix_rotated)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span> <span class="n">matrix_rotated</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">;</span>
+<span class="n">matrix_rotated</span><span class="p">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">phi</span><span class="p">);</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="add_scaling_to_a_2d_transformation_matrix">Add scaling to a 2D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{matrix_scaled} = \text{matrix} \cdot \begin{bmatrix}
+  s_x &amp; 0 &amp; 0 \\
+  0 &amp; s_y &amp; 0 \\
+  0 &amp; 0 &amp; 1
+\end{bmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p><code>sx</code> and <code>sy</code> are scaling factors on the X and Y dimensions.</p>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat2d_scale_local(matrix, sx, sy, matrix_scaled)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span> <span class="n">matrix_scaled</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">;</span>
+<span class="n">matrix_scaled</span><span class="p">.</span><span class="n">scale</span><span class="p">(</span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2f</span><span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">));</span>
+<span class="c1">// or when sx == sy:</span>
+<span class="n">matrix_scaled</span><span class="p">.</span><span class="n">scale</span><span class="p">(</span><span class="n">sx</span><span class="p">);</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="add_translation_to_a_2d_transformation_matrix">Add translation to a 2D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{matrix_translated} = \text{matrix} \cdot \begin{bmatrix}
+  1 &amp; 0 &amp; t_x \\
+  0 &amp; 1 &amp; t_y \\
+  0 &amp; 0 &amp; 1
+\end{bmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat2d_translate_local(matrix, tx, ty, matrix_translated)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span> <span class="n">matrix_translated</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">;</span>
+<span class="n">matrix_translated</span><span class="p">.</span><span class="n">translate</span><span class="p">(</span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2f</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">ty</span><span class="p">));</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="add_reflection_to_a_2d_transformation_matrix">Add reflection to a 2D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\begin{gather}
+  \text{reflection} = \begin{bmatrix}
+    M &amp; \begin{matrix}0 \\ 0\end{matrix} \\
+    \begin{matrix}0 &amp; 0\end{matrix} &amp; 1
+  \end{bmatrix} \cdot \text{matrix} \\
+
+  M = I - \frac{2}{v^T v} v v^T
+  \qquad
+  v = \begin{bmatrix}
+    -p_y \\
+    p_x
+  \end{bmatrix}
+\end{gather}\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat2d_reflect_local(matrix, px, py, reflection)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="paragraph">
+<p>Eigen does not have a built-in function for applying reflections. One has to perform reflection on their own.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector2f</span> <span class="nf">v</span><span class="p">(</span><span class="o">-</span><span class="n">py</span><span class="p">,</span> <span class="n">px</span><span class="p">);</span>
+<span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix2f</span> <span class="n">m</span> <span class="o">=</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix2f</span><span class="o">::</span><span class="n">Identity</span><span class="p">()</span> <span class="o">-</span> <span class="mf">2.0</span><span class="n">f</span> <span class="o">/</span> <span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">transpose</span><span class="p">()</span> <span class="o">*</span> <span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">v</span><span class="p">.</span><span class="n">transpose</span><span class="p">());</span>
+<span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span> <span class="n">reflection</span> <span class="o">=</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">matrix</span><span class="p">;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="add_slant_to_a_2d_transformation_matrix">Add slant to a 2D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\begin{aligned}
+  \text{matrix_slanted} &amp;= \text{matrix} \cdot \begin{bmatrix}
+    \cos(\theta) &amp; 0 &amp; 0 \\
+    \sin(\theta) &amp; 1 &amp; 0 \\
+    0 &amp; 0 &amp; 1
+  \end{bmatrix} &amp;&amp; \text{axis = X} \\
+
+  \text{matrix_slanted} &amp;= \text{matrix} \cdot \begin{bmatrix}
+    1 &amp; -\sin(\theta) &amp; 0 \\
+    0 &amp; \cos(\theta) &amp; 0 \\
+    0 &amp; 0 &amp; 1
+  \end{bmatrix} &amp;&amp; \text{axis = Y}
+\end{aligned}\]
+</div>
+</div>
+<div class="paragraph">
+<p><code>theta</code> is the angle of slant in radians.</p>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="paragraph">
+<p><code>axis</code> is <code>'x'</code> or <code>'y'</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat2d_slant_local(matrix, theta, axis, matrix_slanted)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="paragraph">
+<p>Eigen does not have a built-in function for applying slants. One has to perform slanting on their own.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="c1">// When axis = X:</span>
+<span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span> <span class="n">matrix_slanted</span> <span class="o">=</span> <span class="n">matrix</span> <span class="o">*</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span><span class="p">(</span><span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix2f</span><span class="p">{{</span><span class="n">std</span><span class="o">::</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="mi">0</span><span class="p">},</span> <span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="mi">1</span><span class="p">}});</span>
+<span class="c1">// Or when axis = Y:</span>
+<span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span> <span class="n">matrix_slanted</span> <span class="o">=</span> <span class="n">matrix</span> <span class="o">*</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Affine2f</span><span class="p">(</span><span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix2f</span><span class="p">{{</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">std</span><span class="o">::</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)}});</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="3d_homogeneous_transformation_matrices">3D Homogeneous Transformation Matrices</h3>
+<div class="sect3">
+<h4 id="create_a_3d_identity_transformation_matrix">Create a 3D identity transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{matrix} = I_4\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat3d_identity(matrix)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine3f</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Affine3f</span><span class="o">::</span><span class="n">Identity</span><span class="p">();</span>
+<span class="c1">// or, for existing matrix:</span>
+<span class="n">matrix</span><span class="p">.</span><span class="n">setIdentity</span><span class="p">();</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="invert_a_3d_transformation_matrix">Invert a 3D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{matrix_inverted} = \text{matrix}^{-1}\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat3d_invert(matrix, matrix_inverted)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine3f</span> <span class="n">matrix_inverted</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">inverse</span><span class="p">();</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="transpose_a_3d_transformation_matrix">Transpose a 3D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{matrix_transposed} = \text{matrix}^T\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat3d_transpose(matrix, matrix_transposed)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Projective3f</span> <span class="nf">matrix_transposed</span><span class="p">(</span><span class="n">matrix</span><span class="p">.</span><span class="n">matrix</span><span class="p">().</span><span class="n">transpose</span><span class="p">());</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="compute_the_determinant_of_a_3d_transformation_matrix">Compute the determinant of a 3D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{determinant} = | \text{matrix} |\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat3d_determinant(matrix, determinant)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">float</span> <span class="n">determinant</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">.</span><span class="n">matrix</span><span class="p">().</span><span class="n">determinant</span><span class="p">();</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="multiply_2_3d_transformation_matrices">Multiply 2 3D transformation matrices</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{product} = \text{matrix_a} \cdot \text{matrix_b}\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat3d_compose(matrix_a, matrix_b, product)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine3f</span> <span class="n">product</span> <span class="o">=</span> <span class="n">matrix_a</span> <span class="o">*</span> <span class="n">matrix_b</span><span class="p">;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="add_rotation_to_a_3d_transformation_matrix">Add rotation to a 3D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{matrix_rotated} = \text{matrix} \cdot \begin{bmatrix}
+  R &amp; \begin{matrix}0\\0\\0\end{matrix} \\
+  \begin{matrix}0 &amp; 0 &amp; 0\end{matrix} &amp; 1
+\end{bmatrix}\]
+</div>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{align}
+  R_x &amp;= \begin{bmatrix}
+    1 &amp; 0 &amp; 0 \\
+    0 &amp; \cos(\phi) &amp; -\sin(\phi) \\
+    0 &amp; \sin(\phi) &amp; \cos(\phi)
+  \end{bmatrix} &amp;&amp; \text{axis = X} \\
+
+  R_y &amp;= \begin{bmatrix}
+    \cos(\phi) &amp; 0 &amp; \sin(\phi) \\
+    0 &amp; 1 &amp; 0 \\
+    -\sin(\phi) &amp; 0 &amp; \cos(\phi)
+  \end{bmatrix} &amp;&amp; \text{axis = Y} \\
+
+  R_z &amp;= \begin{bmatrix}
+    \cos(\phi) &amp; -\sin(\phi) &amp; 0 \\
+    \sin(\phi) &amp; \cos(\phi) &amp; 0 \\
+    0 &amp; 0 &amp; 1
+  \end{bmatrix} &amp;&amp; \text{axis = Z} \\
+
+  R_u &amp;= \cos(\phi) I + \sin(\phi) [u]_\times + (1 - \cos(\phi))(u u^T) &amp;&amp; \text{axis is a unit vector $u$}
+\end{align}\]
+</div>
+</div>
+<div class="stemblock">
+<div class="content">
+\[u = \begin{pmatrix}
+  u_x \\
+  u_y \\
+  u_z
+\end{pmatrix}
+\qquad
+[u]_\times = \begin{bmatrix}
+  0 &amp; -u_z &amp; u_y \\
+  u_z &amp; 0 &amp; -u_x \\
+  -u_y &amp; u_x &amp; 0
+\end{bmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p><code>phi</code> is the angle of rotation in radians.</p>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="paragraph">
+<p><code>axis</code> is one of <code>'x'</code>, <code>'y'</code>, <code>'z'</code>, or a unit vector <code>[ux, uy, uz]</code> as a tuple.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat3d_rotate_local(matrix, phi, axis, matrix_rotated)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="paragraph">
+<p><code>axis</code> is one of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Eigen::Vector3f::UnitX()</code></p>
+</li>
+<li>
+<p><code>Eigen::Vector3f::UnitY()</code></p>
+</li>
+<li>
+<p><code>Eigen::Vector3f::UnitZ()</code></p>
+</li>
+<li>
+<p><code>Eigen::Vector3f(ux, uy, uz)</code></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<code>axis</code> must be normalized, else rotation is invalid.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine3f</span> <span class="n">matrix_rotated</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">;</span>
+<span class="n">matrix_rotated</span><span class="p">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">Eigen</span><span class="o">::</span><span class="n">AngleAxisf</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">axis</span><span class="p">));</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="add_scaling_to_a_3d_transformation_matrix">Add scaling to a 3D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{matrix_scaled} = \text{matrix} \cdot \begin{bmatrix}
+  s_x &amp; 0 &amp; 0 &amp; 0 \\
+  0 &amp; s_y &amp; 0 &amp; 0 \\
+  0 &amp; 0 &amp; s_z &amp; 0 \\
+  0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p><code>sx</code>, <code>sy</code>, <code>sz</code> are scaling factors on the X, Y, Z dimensions.</p>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat3d_scale_local(matrix, sx, sy, sz, matrix_scaled)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine3f</span> <span class="n">matrix_scaled</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">;</span>
+<span class="n">matrix_scaled</span><span class="p">.</span><span class="n">scale</span><span class="p">(</span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3f</span><span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">sz</span><span class="p">));</span>
+<span class="c1">// or when sx == sy == sz:</span>
+<span class="n">matrix_scaled</span><span class="p">.</span><span class="n">scale</span><span class="p">(</span><span class="n">sx</span><span class="p">);</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="add_translation_to_a_3d_transformation_matrix">Add translation to a 3D transformation matrix</h4>
+<div class="stemblock">
+<div class="content">
+\[\text{matrix_translated} = \text{matrix} \cdot \begin{bmatrix}
+  1 &amp; 0 &amp; 0 &amp; t_x \\
+  0 &amp; 1 &amp; 0 &amp; t_y \\
+  0 &amp; 0 &amp; 1 &amp; t_z \\
+  0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">hom_mat3d_translate_local(matrix, tx, ty, matrix_translated)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine3f</span> <span class="n">matrix_translated</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">;</span>
+<span class="n">matrix_translated</span><span class="p">.</span><span class="n">translate</span><span class="p">(</span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3f</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">ty</span><span class="p">,</span> <span class="n">tz</span><span class="p">));</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="poses">Poses</h3>
+<div class="paragraph">
+<p>PCL does not make the distinction between affine and rigid transformations. This also means there is no separate data type that represent rigid transformations, they are also represented by affine transformation matrices.</p>
+</div>
+<div class="sect3">
+<h4 id="create_a_3d_transformation_matrix_from_rotation_angles_and_translations">Create a 3D transformation matrix from rotation angles and translations</h4>
+<div class="paragraph">
+<p><code>tx</code>, <code>ty</code>, <code>tz</code> are translation along the X, Y, Z axes; <code>rx</code>, <code>ry</code>, <code>rz</code> are rotation angles around the X, Y, Z axes in radians. <code>order_of_rotation</code> dictates the interpretation of the rotation angles.</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{aligned}
+  \text{matrix} &amp;= \begin{bmatrix}
+    1 &amp; 0 &amp; 0 &amp; t_x \\
+    0 &amp; 1 &amp; 0 &amp; t_y \\
+    0 &amp; 0 &amp; 1 &amp; t_z \\
+    0 &amp; 0 &amp; 0 &amp; 1
+  \end{bmatrix} \cdot R_x \cdot R_y \cdot R_z
+  &amp;&amp; \text{order_of_rotation = 'gba'} \\
+
+  \text{matrix} &amp;= \begin{bmatrix}
+    1 &amp; 0 &amp; 0 &amp; t_x \\
+    0 &amp; 1 &amp; 0 &amp; t_y \\
+    0 &amp; 0 &amp; 1 &amp; t_z \\
+    0 &amp; 0 &amp; 0 &amp; 1
+  \end{bmatrix} \cdot R_z \cdot R_y \cdot R_x
+  &amp;&amp; \text{order_of_rotation = 'abg'}
+\end{aligned}\]
+</div>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{aligned}
+  R_x &amp;= \begin{bmatrix}
+    1 &amp; 0 &amp; 0 &amp; 0 \\
+    0 &amp; \cos(r_x) &amp; -\sin(r_x) &amp; 0 \\
+    0 &amp; \sin(r_x) &amp; \cos(r_x) &amp; 0 \\
+    0 &amp; 0 &amp; 0 &amp; 1
+  \end{bmatrix} \\
+
+  R_y &amp;= \begin{bmatrix}
+    \cos(r_y) &amp; 0 &amp; \sin(r_y) &amp; 0 \\
+    0 &amp; 1 &amp; 0 &amp; 0 \\
+    -\sin(r_y) &amp; 0 &amp; \cos(r_y) &amp; 0 \\
+    0 &amp; 0 &amp; 0 &amp; 1
+  \end{bmatrix} \\
+
+  R_z &amp;= \begin{bmatrix}
+    \cos(r_z) &amp; -\sin(r_z) &amp; 0 &amp; 0 \\
+    \sin(r_z) &amp; \cos(r_z) &amp; 0 &amp; 0 \\
+    0 &amp; 0 &amp; 1 &amp; 0 \\
+    0 &amp; 0 &amp; 0 &amp; 1
+  \end{bmatrix}
+\end{aligned}\]
+</div>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">create_pose(tx, ty, tz, deg(rx), deg(ry), deg(rz), 'Rp+T', order_of_rotation, 'point', pose)
+pose_to_hom_mat3d(pose, matrix)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">Eigen</span><span class="o">::</span><span class="n">Affine3f</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Affine3f</span><span class="o">::</span><span class="n">Identity</span><span class="p">();</span>
+<span class="n">matrix</span><span class="p">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">Eigen</span><span class="o">::</span><span class="n">AngleAxisf</span><span class="p">(</span><span class="n">rz</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3f</span><span class="o">::</span><span class="n">UnitZ</span><span class="p">()));</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="n">matrix</span><span class="p">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">Eigen</span><span class="o">::</span><span class="n">AngleAxisf</span><span class="p">(</span><span class="n">ry</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3f</span><span class="o">::</span><span class="n">UnitY</span><span class="p">()));</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="n">matrix</span><span class="p">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">Eigen</span><span class="o">::</span><span class="n">AngleAxisf</span><span class="p">(</span><span class="n">rx</span><span class="p">,</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3f</span><span class="o">::</span><span class="n">UnitX</span><span class="p">()));</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="n">matrix</span><span class="p">.</span><span class="n">translate</span><span class="p">(</span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3f</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">ty</span><span class="p">,</span> <span class="n">tz</span><span class="p">));</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This example corresponds to HALCON&#8217;s behavior when <code>order_of_rotation</code> is <code>'abg'</code>. To recreate the behavior when <code>order_of_rotation</code> is <code>'gba'</code>, the order of the rotations should be reversed.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="visualization">Visualization</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="creating_visualisations">Creating Visualisations</h3>
+<div class="sect3">
+<h4 id="displaying_the_raw_pcd_file_data">Displaying the raw PCD file data</h4>
+<div class="paragraph">
+<p>Using PCL-tools on ubuntu you are able to easily visualize any PCD file from the terminal using the below function.
+This is a simple way to check PCD data files before you implement them into long visualization processes.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span>pcl_viewer PCD_file.pcd</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/terminal_PCD.png" alt="terminal PCD">
+</div>
+</div>
+<div class="paragraph">
+<p>Installing PCL-tools is as simple as the following terminal command line in ubuntu.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install </span>pcl-tools</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="displaying_point_cloud_data_from_ide">Displaying Point Cloud Data From IDE</h4>
+<div class="paragraph">
+<p>HALCON</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">disp_object_model_3d( : : WindowHandle, ObjectModel3D, CamParam, Pose, GenParamName, GenParamValue :)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In PCL the visualisations are created mainly thorugh the format of a dedicated visualisation function. These visualisations can be manipulated and changed to suit the users needs. The visualisation function below creates a visualizer window called "New Cloud". Following this the cloud data, 'img', with a name for viewport identification, most examples use '0' for the veiwport number/identification.</p>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/visualization/pcl_visualizer.h&gt;
+</span><span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCLVisualizer</span><span class="o">::</span><span class="n">Ptr</span> <span class="nf">viewer</span><span class="p">(</span><span class="k">new</span> <span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">visualizer</span> <span class="p">(</span><span class="s">"New Cloud"</span><span class="p">));</span>
+<span class="n">viewer</span><span class="o">-&gt;</span><span class="n">addPointCloud</span><span class="p">(</span><span class="k">new</span> <span class="nf">PointCloud</span><span class="p">(</span><span class="n">img</span><span class="p">)),</span> <span class="mi">0</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The '0' in the above line states the viewport identification. Can be any int for the viewport.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="cloud_point_properties_colour_and_size">Cloud Point Properties (Colour and Size)</h4>
+<div class="paragraph">
+<p>For colour and size we can adjust these through the set viewer model similar to the addPointCloud model. However, these require some inputs.
+	- Size 	Can be a number an int from 1.0 and above, the larger the number the larger the point size.
+	- r, g, b, are the colours Red, Green and Blue which can have a lightness or darkness level between 0.0 (dark) and 1.0 (light) inclusive.</p>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">viewer</span><span class="o">-&gt;</span><span class="n">setPointCloudRenderingProperties</span> <span class="p">(</span><span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCL_VISUALIZER_POINT_SIZE</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">cloud_name</span><span class="p">)</span>
+
+<span class="n">viewer</span><span class="o">-&gt;</span><span class="n">setPointCloudRenderingProperties</span> <span class="p">(</span><span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCL_VISUALIZER_COLOR</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">cloud_name</span><span class="p">)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are also some basic colourmaps premade for use by PCL, these can be found at <a href="https://pointclouds.org/documentation/namespacepcl_1_1visualization.html#a283c01126d7d30bab271e86a4ea5c5ee">the link provided</a> under rendering properties.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="line_width">Line Width</h4>
+<div class="paragraph">
+<p>Line Width uses the same paramater styles as the Point Size method above, integers from 1.0 and above.
+PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">viewer</span><span class="o">-&gt;</span><span class="n">setPointCloudRenderingProperties</span> <span class="p">(</span><span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCL_VISUALIZER_LINE_WIDTH</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">cloud_name</span><span class="p">)</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="background_properties">Background Properties</h4>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">viewer</span><span class="o">-&gt;</span><span class="n">setBackgroundColor</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">cloud_name</span><span class="p">)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="text">Text</h3>
+<div class="paragraph">
+<p>Note:
+For all of the PCL code below the examples are all coded within a visualizer format (displayed below for reference)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/visualization/pcl_visualizer.h&gt;
+</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCLVisualizer</span><span class="o">::</span><span class="n">Ptr</span> <span class="nf">simpleVis</span> <span class="p">(</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;::</span><span class="n">ConstPtr</span> <span class="n">cloud</span><span class="p">){</span>
+	<span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCLVisualizer</span><span class="o">::</span><span class="n">Ptr</span> <span class="n">viewer</span> <span class="p">(</span><span class="k">new</span> <span class="n">pcl</span><span class="o">::</span><span class="n">PCLVisualizer</span> <span class="p">(</span><span class="s">"3D viewer"</span><span class="p">));</span>
+	<span class="n">viewer</span><span class="o">-&gt;</span><span class="n">addPointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">cloud</span><span class="p">,</span> <span class="s">"sample data"</span><span class="p">);</span>
+	<span class="c1">// Viewer extras (i.e. point size, colour of background and data, text)</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="adding_2d_text">Adding 2D Text</h4>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">disp_text( : : WindowHandle, String, CoordSystem, Row, Column, Color, GenParamName, GenParamValue : )</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">viewer</span><span class="o">-&gt;</span><span class="n">addText</span> <span class="p">(</span><span class="s">"String"</span><span class="p">,</span> <span class="n">X_position</span><span class="p">,</span> <span class="n">Y_position</span><span class="p">,</span> <span class="n">id</span><span class="p">,</span> <span class="n">Viewport</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>String is the text you would like to display. The X_position and Y_position are where you would like the text to be displayed, if X and Y = 10, the text will be shown in the bottom left corner. id is the text object, equal to the text parameter.
+This text is locked onto the WINDOWs X and Y coordinates. It will not travel with the 3D point cloud data.</p>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">new_line( : : WindowHandle : )</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">viewer</span><span class="o">-&gt;</span><span class="n">addText</span> <span class="p">(</span><span class="s">"First line </span><span class="se">\n</span><span class="s"> Second line"</span><span class="p">,</span> <span class="n">X_position</span><span class="p">,</span> <span class="n">Y_position</span><span class="p">,</span> <span class="n">id</span><span class="p">,</span> <span class="n">Viewport</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can use the addText function as before but simply adding a newline marker creates a secondary line in the window. Dont forgt to change your X and Y positions for the text appropriately.</p>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">qery_font( : : WindowHandle : Font)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Queries the fonts available for the text output window. They can be set with the operator set_font</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example_of_simple_adjustments">Example of Simple Adjustments</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCLVisualizer</span><span class="o">::</span><span class="n">Ptr</span> <span class="nf">simpleVis</span> <span class="p">(</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;::</span><span class="n">ConstPtr</span> <span class="n">cloud</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCLVisualizer</span><span class="o">::</span><span class="n">Ptr</span> <span class="n">viewer</span> <span class="p">(</span><span class="k">new</span> <span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCLVisualizer</span> <span class="p">(</span><span class="s">"3D Viewer"</span><span class="p">));</span>
+
+  <span class="n">viewer</span><span class="o">-&gt;</span><span class="n">setBackgroundColor</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">viewer</span><span class="o">-&gt;</span><span class="n">addPointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">cloud</span><span class="p">,</span> <span class="s">"sample cloud"</span><span class="p">);</span>
+
+  <span class="n">viewer</span><span class="o">-&gt;</span><span class="n">setPointCloudRenderingProperties</span> <span class="p">(</span><span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCL_VISUALIZER_POINT_SIZE</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s">"sample cloud"</span><span class="p">);</span>
+  <span class="n">viewer</span><span class="o">-&gt;</span><span class="n">setPointCloudRenderingProperties</span> <span class="p">(</span><span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCL_VISUALIZER_COLOR</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s">"sample cloud"</span><span class="p">);</span>
+
+  <span class="n">viewer</span><span class="o">-&gt;</span><span class="n">addCoordinateSystem</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">);</span>
+  <span class="n">viewer</span><span class="o">-&gt;</span><span class="n">initCameraParameters</span> <span class="p">();</span>
+
+  <span class="n">viewer</span><span class="o">-&gt;</span><span class="n">addText</span> <span class="p">(</span><span class="s">"First Line </span><span class="se">\n</span><span class="s"> Second Line"</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="s">"v1 text"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="p">(</span><span class="n">viewer</span><span class="p">);</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/visualization_example.png" alt="visualization example">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="adding_3d_text_point_specifiedlocked">Adding 3D Text (Point Specified/Locked)</h4>
+<div class="paragraph">
+<p>Adding 3D text is best for addressing specific cloud arrays. This can be implemented with the below functions.
+The
+PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/visualization/pcl_visualizer.h&gt;
+</span>
+ <span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCLVisualizer</span><span class="o">::</span><span class="n">addText3D</span> <span class="p">(</span>
+   <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">text</span><span class="p">,</span> <span class="c1">// This is the char[] string that will be displayed to the position specified</span>
+   <span class="k">const</span> <span class="n">PointT</span><span class="o">&amp;</span> <span class="n">position</span><span class="p">,</span>  <span class="c1">// This is the position pointer that can be set up in one of the following ways (below)</span>
+   <span class="kt">double</span> <span class="n">orientation</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+   <span class="kt">double</span> <span class="n">textScale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+   <span class="kt">double</span> <span class="n">r</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+   <span class="kt">double</span> <span class="n">g</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+   <span class="kt">double</span> <span class="n">b</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+   <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+   <span class="kt">int</span> <span class="n">viewport</span><span class="p">)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set up a pointer for a set value at say the origin of your cloud point you can use this technique</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span> <span class="n">textPosition</span><span class="p">;</span> <span class="c1">// Creating a pointer for PCL</span>
+<span class="n">textPosition</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>         <span class="c1">// Sets the x to origin</span>
+<span class="n">textPosition</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>         <span class="c1">// Sets the y to origin</span>
+<span class="n">textPosition</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>         <span class="c1">// Sets the z to origin</span>
+
+<span class="n">viewer</span><span class="p">.</span><span class="n">addText3D</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span> <span class="p">(</span><span class="s">"Text to show"</span><span class="p">,</span> <span class="n">textPosition</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s">"3DText"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This 3D text addition will always face the viewer but will be dreagged around the visualisation with respect to the coordinate set.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/3DText.png" alt="3DText">
+</div>
+</div>
+<div class="paragraph">
+<p>This is strictly for operations using the vpcl::visualization::PCLVisualizer, pcl::PointXYZ version on point cloud library. To adjust to another point type you will need to change the typeface and name.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="mouse">Mouse</h3>
+<div class="sect3">
+<h4 id="get_mouse_pointer_coordinates_window_mouseevent">Get Mouse Pointer coordinates (Window) 'MouseEvent'</h4>
+<div class="paragraph">
+<p>For the HALCON code below the function returns the location of the mouse pointer relative to the windows coordinates (row and column) of the pixels covered by the window. The button pressed on the mouse is calculated using a binary code system that once added up reveals all the numbers that wer pressed. The final value is returned to the 'Button' variable. This is also true for the 'sub_pix' variation but that returns the values with sub pixel accuracy.</p>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">get_mbutton( : : WindowHandle : Row, Column, Button)
+get_mbutton_sub_pix( : : WindowHandle : Row, Column, Button)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In PCL there is a class for this called 'MouseEvent'. This class captures the mouse location on the window, the button pressed and also captures certain keys on teh keyboard to assess for 'special' commands.
+MouseEvent class saves the following inputs:
+ 	- type   			Event type (Pressed or Released)
+ 	- button 			The Button that causes the event
+	- x      			X position of mouse pointer at that time where event got fired
+	- y      			Y position of mouse pointer at that time where event got fired
+ 	- alt    			Whether the ALT key was pressed at that time where event got fired
+ 	- ctrl   			Whether the CTRL key was pressed at that time where event got fired
+ 	- shift  			Whether the Shift key was pressed at that time where event got fired
+ 	- selection_mode 	Whether we are in selection mode</p>
+</div>
+<div class="paragraph">
+<p>To aquire this information within the window you will need to implement the following code in the PCLVisualizer containing your cloud point data.</p>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include &lt;pcl/visualization/keyboard_event.h&gt;
+</span><span class="c1">// Example Visualisation function</span>
+<span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCLVisualizer</span><span class="o">::</span><span class="n">Ptr</span> <span class="nf">viewer</span> <span class="p">(</span><span class="k">new</span> <span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCLVisualizer</span> <span class="p">(</span><span class="s">"3D Viewer"</span><span class="p">));</span>
+<span class="n">viewer</span><span class="o">-&gt;</span><span class="n">registerMouseCallback</span> <span class="p">(</span><span class="n">mouseEventOccured</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">viewer</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">mouseEventOccured</span> <span class="p">(</span><span class="k">const</span> <span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">MouseEvent</span> <span class="o">&amp;</span><span class="n">event</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">viewer_void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// In this section you are able to recall the class 'MouseEvent' using the getters below.</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">event</span><span class="p">.</span><span class="n">getType</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 					<span class="c1">//Displays the Event Type to terminal</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">event</span><span class="p">.</span><span class="n">getButton</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>				<span class="c1">//Displays the Button that caused event to terminal</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">event</span><span class="p">.</span><span class="n">getX</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>						<span class="c1">//Displays the X coordinate to terminal</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">event</span><span class="p">.</span><span class="n">getY</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>						<span class="c1">//Displays the Y coordinate to terminal</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">event</span><span class="p">.</span><span class="n">getKeyboardModifiers</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>		<span class="c1">//Displays the Keyboard keys pressed to terminal</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">event</span><span class="p">.</span><span class="n">getSelectionMode</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>			<span class="c1">//Displays the selection mode to terminal</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="selecting_areas_or_multiple_points">Selecting Areas or Multiple Points</h4>
+<div class="paragraph">
+<p>For selecting areas and points in a Point Cloud viewer there must be a selected mouse callback function ot register the input from the user.
+The mouse naturally drags and orientates the image when the M1 button is clicked. To register a mouse callback with a specific function you can use the above function with specified additions.
+To search for a mouse input option such as the 'alt' key.
+Following this you must decide what to do with the data once selected. This can be to copy the selected points or to adjust the colour using the coding options detailed in Graphics Visualisations of this document.</p>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">boost</span><span class="o">::</span><span class="n">signals2</span><span class="o">::</span><span class="n">connection</span> <span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCLVisualizer</span><span class="o">::</span><span class="n">registerPointPickingCallback</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span> <span class="kt">void</span><span class="p">(</span><span class="k">const</span> <span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PointPickingEvent</span> <span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">cb</span>	<span class="p">)</span> <span class="p">;</span>
+<span class="c1">// Where cb is the CallBack function</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="c1">// ALSO</span>
+<span class="c1">// Under the class PointPickingEvent</span>
+<span class="cp">#include &lt;pcl/pcl_macros.h&gt;
+#include &lt;pcl/types.h&gt; // for pcl::indices
+</span><span class="n">viewer</span><span class="o">-&gt;</span><span class="n">registerPointPickingCallback</span> <span class="p">(</span><span class="n">performPointPick</span><span class="p">,(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">viewer</span><span class="p">)</span>
+
+<span class="kt">void</span> <span class="nf">performPointPick</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">getPointIndex</span><span class="p">(</span><span class="n">idx_</span><span class="p">);</span>
+	<span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span> <span class="o">=</span> <span class="n">getPoint</span><span class="p">(</span><span class="kt">float</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">,</span> <span class="kt">float</span> <span class="o">&amp;</span><span class="n">z</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Point Picked Location: "</span> <span class="o">+</span> <span class="n">idx_</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+	<span class="c1">// displays the point index for point data.</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">getPoint</span><span class="p">(</span><span class="kt">float</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">,</span> <span class="kt">float</span> <span class="o">&amp;</span><span class="n">z</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+	<span class="c1">// displays the point coordinates for point.</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="selecting_single_points">Selecting single Points</h4>
+<div class="paragraph">
+<p>Similar rules apply as the Selecting areas section.
+PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">boost</span><span class="o">::</span><span class="n">signals2</span><span class="o">::</span><span class="n">connection</span> <span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PCLVisualizer</span><span class="o">::</span><span class="n">registerPointPickingCallback</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span> <span class="kt">void</span><span class="p">(</span><span class="k">const</span> <span class="n">pcl</span><span class="o">::</span><span class="n">visualization</span><span class="o">::</span><span class="n">PointPickingEvent</span> <span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">cb</span><span class="p">)</span>
+<span class="c1">// Where cb is the CallBack function</span>
+
+<span class="c1">// ALSO</span>
+<span class="c1">// Under the class PointPickingEvent</span>
+<span class="cp">#include &lt;pcl/pcl_macros.h&gt;
+#include &lt;pcl/types.h&gt; // for pcl::indices
+</span><span class="n">viewer</span><span class="o">-&gt;</span><span class="n">registerPointPickingCallback</span> <span class="p">(</span><span class="n">performAreaPick</span><span class="p">,(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">viewer</span><span class="p">)</span>
+
+<span class="kt">void</span> <span class="n">performAreaPick</span><span class="p">()</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="double_click">Double Click</h4>
+<div class="paragraph">
+<p>In HALCON there is a function that allows for a double click to be registered on the window. This capability is not yet seen in the visualizer window for PCL. However they have allowed for certain keyboard inputs to be registered by the mouse event as well. These options can be seen above.</p>
+</div>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">send_mouse_double_click_event( : : WindowHandle, Row, Column, Button : Processed)</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="drag_event">Drag Event</h4>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">send_mouse_drag_event( : : WindowHandle, Row, Column, Button : Processed)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>PCL does not have an available drag event for personal adjustment, the current drag movement on the window allows for the point cloud data to be rotated and pivoted throughout the viewer.</p>
+</div>
+<div class="paragraph">
+<p>This mouse button event sends the position of the mouse in the window to the 'WindowHandle' and this signals the 'Button' has been released. The 'Button' is a previously coded mouse event. See Mouse Event for more details.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="send_mouse_updown_event">Send Mouse Up/Down Event</h4>
+<div class="paragraph">
+<p>HALCON:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="hdevelop">send_mouse_up_event( : : WindowHandle, Row, Column, Button : Processed)
+send_mouse_down_event( : : WindowHandle, Row, Column, Button : Processed)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The send mouse up and down event in halcon is similiar to the PCL get.point caller for PCL. It takes the pointers location from the window and states the current position in the window or function specified.</p>
+</div>
+<div class="paragraph">
+<p>PCL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp">	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">event</span><span class="p">.</span><span class="n">getX</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>						<span class="c1">//Displays the X coordinate to terminal</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">event</span><span class="p">.</span><span class="n">getY</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>						<span class="c1">//Displays the Y coordinate to terminal</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2021-10-25 12:59:30 +1100
+</div>
+</div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+</body>
+</html>
